@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="qoliber_events" engine="innodb" comment="EVENTs">
+        <column name="entity_id" xsi:type="int" comment="entity_id" nullable="true" identity="true" unsigned="true"
+                padding="10"/>
+        <column name="event_name" xsi:type="varchar" comment="event_name" nullable="true"/>
+        <column name="event_url" xsi:type="varchar" comment="event_url" nullable="true"/>
+        <column name="date_from" xsi:type="datetime" comment="date_from" nullable="true"/>
+        <column name="date_to" xsi:type="datetime" comment="date_to" nullable="true"/>
+        <column name="active" xsi:type="smallint" comment="active" nullable="false" default="0"/>
+        <column name="logo" xsi:type="varchar" comment="logo" nullable="true"/>
+        <column name="country" xsi:type="varchar" comment="country" nullable="true"/>
+        <column name="address_details" xsi:type="text" comment="address_details" nullable="true"/>
+        <column name="city" xsi:type="varchar" comment="city" nullable="true"/>
+        <column name="organizer_name" xsi:type="varchar" comment="organizer_name" nullable="true"/>
+        <column name="organizer_url" xsi:type="varchar" comment="organizer_url" nullable="true"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="QOLIBER_EVENTS_ENTITY_ID" indexType="fulltext">
+            <column name="logo"/>
+            <column name="country"/>
+            <column name="address_details"/>
+            <column name="city"/>
+            <column name="organizer_name"/>
+        </index>
+    </table>
+</schema>

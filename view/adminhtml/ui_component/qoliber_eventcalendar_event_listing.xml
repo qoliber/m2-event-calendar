@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider"
+                  xsi:type="string">qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_listing_data_source
+            </item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">new</item>
+                <item name="label" xsi:type="string" translate="true">Add New Event Item</item>
+                <item name="url" xsi:type="string">events/event/new</item>
+                <item name="class" xsi:type="string">primary</item>
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <deps>
+            <dep>qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_listing_data_source</dep>
+        </deps>
+        <spinner>qoliber_eventcalendar_event_columns</spinner>
+    </settings>
+    <dataSource name="qoliber_eventcalendar_event_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+        </settings>
+        <aclResource>EventCalendar_Qoliber::Event</aclResource>
+        <dataProvider name="qoliber_eventcalendar_event_listing_data_source"
+                      class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <paging name="listing_paging"/>
+        <bookmark name="bookmarks"/>
+        <filterSearch name="fulltext"/>
+        <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+            <settings>
+                <selectProvider>
+        qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_columns.ids
+                </selectProvider>
+                <indexField>entity_id</indexField>
+            </settings>
+            <action name="delete">
+                <settings>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                    <url path="*/*/massDelete"/>
+                    <confirm>
+                        <title translate="true">Delete items</title>
+                        <message translate="true">Are you sure you want to delete the selected items?</message>
+                    </confirm>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="qoliber_eventcalendar_event_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id">
+            <settings>
+                <label translate="true">Entity Id</label>
+            </settings>
+        </column>
+        <column name="event_name">
+            <settings>
+                <label translate="true">Event Name</label>
+            </settings>
+        </column>
+        <column name="date_from">
+            <settings>
+                <label translate="true">Date From</label>
+            </settings>
+        </column>
+        <column name="date_to">
+            <settings>
+                <label translate="true">Date To</label>
+            </settings>
+        </column>
+        <column name="active">
+            <settings>
+                <label translate="true">Active</label>
+            </settings>
+        </column>
+        <column name="country">
+            <settings>
+                <label translate="true">Country</label>
+            </settings>
+        </column>
+        <column name="address_details">
+            <settings>
+                <label translate="true">Address Details</label>
+            </settings>
+        </column>
+        <column name="city">
+            <settings>
+                <label translate="true">City</label>
+            </settings>
+        </column>
+        <column name="organizer_name">
+            <settings>
+                <label translate="true">Organizer Name</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Qoliber\EventCalendar\Ui\Component\Listing\Column\Actions">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

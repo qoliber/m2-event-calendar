@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <media_gallery_image_folders>
+                        <events>events</events>
+                    </media_gallery_image_folders>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
+    </default>
+</config>

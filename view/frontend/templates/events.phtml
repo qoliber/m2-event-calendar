@@ -1,0 +1,102 @@
+<?php
+use Magento\Framework\Escaper;
+
+/** @var \Qoliber\EventCalendar\Block\EventList $block */
+$events = $block->getActiveEvents();
+/** @var Escaper $escaper */
+$period = null;
+$order = 0;
+?>
+<div class="container-fluid">
+    <div class="row example-centered">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+            <ul class="timeline timeline-centered">
+                <?php foreach ($events as $event): ?>
+                    <?php $nextPeriod = date('F Y', strtotime($event->getDateFrom())) ?>
+                    <?php if ($period === null || $period !== $nextPeriod): ?>
+                        <li class="timeline-item period">
+                            <div class="timeline-info"></div>
+                            <?php if ($order > 0): ?>
+                                <div class="timeline-marker"></div>
+                            <?php endif; ?>
+                            <div class="timeline-content">
+                                <h2 class="timeline-title"><?= $escaper->escapeHtml($nextPeriod); ?></h2>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+
+                    <li class="timeline-item">
+                        <div class="timeline-info"></div>
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">
+                                <h2><?= $escaper->escapeHtml($event->getEventName()); ?></h2>
+                                <h3>
+                                    <img src="
+                                    <?=
+                                    $escaper->escapeHtml(
+                                        $block->getViewFileUrl('Qoliber_EventCalendar::images/calendar.svg')
+                                    );
+                                    ?>" alt="Calendar Icon" width="24" height="24" />
+                                    <?= $escaper->escapeHtml(
+                                        sprintf(
+                                            '%s-%s %s',
+                                            date('d', strtotime($event->getDateFrom())),
+                                            date('d', strtotime($event->getDateTo())),
+                                            date('F Y', strtotime($event->getDateFrom()))
+                                        )
+                                    );
+                                    ?>
+                                </h3>
+                                <p>
+                                    <img src="
+                                    <?=
+                                    $escaper->escapeHtml(
+                                        $block->getViewFileUrl('Qoliber_EventCalendar::images/location.svg')
+                                    )
+                                    ?>" alt="Location Icon" width="24" height="24">
+                                    <?= $escaper->escapeHtml($event->getCountry()); ?>,
+                                    <?= $escaper->escapeHtml($event->getCity()); ?>
+                                </p>
+                            </div>
+
+                            <div class="event-details">
+                                <?php if ($event->getLogo()): ?>
+                                    <div class="event-image">
+                                        <img src="<?= $escaper->escapeHtml($block->getEventLogoUrl($event->getLogo()));
+                                        ?>" alt="Event Image">
+                                    </div>
+                                <?php endif; ?>
+                                <div class="event-info">
+                                    <div class="additional-info">
+                                        <img src="<?= $escaper
+                                            ->escapeHtml($block->getViewFileUrl(
+                                                'Qoliber_EventCalendar::images/info.svg'
+                                            )) ?>"
+                                             alt="Info Icon" width="16" height="16" />
+                                        <span><?= $escaper->escapeHtml(__('Additional Details')); ?></span>
+                                    </div>
+                                    <p><?= $escaper->escapeHtml($event->getAddressDetails()); ?></p>
+                                    <p>
+                                        <strong>Event URL: </strong>
+                                        <a href="<?= $escaper->escapeHtml($event->getEventUrl()); ?>"
+                                          target="_blank"><?= $escaper->escapeHtml($event->getEventUrl()); ?></a>
+                                    </p>
+                                    <p>
+                                        <strong>Organizer: </strong>
+                                        <a href="<?= $escaper->escapeHtml($event->getOrganizerUrl()); ?>"
+                                          target="_blank"><?= $escaper->escapeHtml($event->getOrganizerName()); ?></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <?php
+                        $period = $nextPeriod;
+                        $order++;
+                    ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>

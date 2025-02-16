@@ -1,0 +1,28 @@
+{
+    "name": "qoliber/m2-event-calendar",
+    "version": "0.9",
+    "source": {
+        "type": "git",
+        "url": "git@github.com:qoliber/m2-event-calendar.git",
+        "reference": "master"
+    },
+    "authors": [
+        {
+            "name": "Jakub Winkler",
+            "email": "jwinkler@qoliber.com"
+        },
+        {
+            "name": "qoliber",
+            "email": "info@qoliber.com"
+        }
+    ],
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Qoliber\\EventCalendar\\": ""
+        }
+    }
+}

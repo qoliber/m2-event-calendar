@@ -1,0 +1,115 @@
+<?php
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var \Qoliber\EventCalendar\Block\EventList $block */
+$events = $block->getActiveEvents();
+$period = null;
+$order = 0;
+$side = 'text-right';
+?>
+<div class="container mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-3xl font-bold text-gray-800 uppercase">
+            <?= $escaper->escapeHtml(__('Event Timeline')); ?></h1>
+        <p class="text-gray-600 mt-2">
+            <?= $escaper->escapeHtml(__('Explore our upcoming events')); ?></p>
+    </div>
+
+    <div class="relative wrap overflow-hidden p-10 h-full">
+        <div class="border-2 absolute border-opacity-20 border-gray-700 h-full left-1/2 transform -translate-x-1/2">
+        </div>
+
+        <?php foreach ($events as $event): ?>
+            <?php $nextPeriod = date('F Y', strtotime($event->getDateFrom())); ?>
+            <?php if ($period === null || $period !== $nextPeriod): ?>
+                <div class="relative w-full flex flex-col items-center py-6">
+                    <div class="bg-white px-6 py-3 rounded-lg shadow-lg text-center">
+                        <h2 class="text-xl font-bold text-gray-800 uppercase tracking-widest">
+                            <?= $escaper->escapeHtml($nextPeriod); ?> </h2>
+                    </div>
+                </div>
+                <?php $side = 'right'; ?>
+            <?php endif; ?>
+
+            <div class="mb-8 flex justify-between items-center w-full
+            <?= $side === 'right' ? 'right-timeline' : 'left-timeline flex-row-reverse'; ?>">
+                <div class="order-1 w-5/12"></div>
+                <div class="z-20 flex items-center order-1 bg-orange-500 shadow-xl w-8 h-8 rounded-full">
+                    <h1 class="mx-auto font-semibold text-lg text-white"> <?= $order + 1; ?> </h1>
+                </div>
+                <div class="order-1 <?= $side === 'right' ? 'bg-white' : 'bg-gray-800 text-white'; ?> rounded-lg
+                            shadow-xl w-5/12 px-6 py-4">
+                    <h3 class="mb-3 font-bold text-xl <?= $side === 'right' ? 'text-gray-800' : 'text-white'; ?>">
+                        <img src="<?=
+                        $escaper->escapeHtml($block->getViewFileUrl('Qoliber_EventCalendar::images/calendar.svg')); ?>"
+                             alt="Calendar Icon" class="inline-block w-5 h-5 mr-2">
+                        <?= $escaper->escapeHtml(
+                            sprintf(
+                                '%s-%s %s',
+                                date('d', strtotime($event->getDateFrom())),
+                                date('d', strtotime($event->getDateTo())),
+                                date('F Y', strtotime($event->getDateFrom()))
+                            )
+                        );
+                        ?>
+                    </h3>
+                    <h4 class="text-md font-semibold <?= $side === 'right' ? 'text-gray-600' : 'text-gray-200'; ?>">
+                        <?= $escaper->escapeHtml($event->getEventName()); ?>
+                    </h4>
+                    <p class="mt-2 flex items-center <?= $side === 'right' ? 'text-gray-500' : 'text-gray-300'; ?>">
+                        <img src="<?=
+                        $escaper->escapeHtml($block->getViewFileUrl('Qoliber_EventCalendar::images/location.svg')); ?>"
+                             alt="Location Icon" class="inline-block w-4 h-4 mr-2">
+                        <?= $escaper->escapeHtml($event->getCountry()); ?>,
+                        <?= $escaper->escapeHtml($event->getCity()); ?>
+                    </p>
+
+                    <!-- Two Column Layout -->
+                    <div class="flex items-start mt-4">
+                        <?php if ($event->getLogo()): ?>
+                            <div class="w-1/5 max-w-[20%]">
+                                <img src="<?= $escaper->escapeHtml($block->getEventLogoUrl($event->getLogo())); ?>"
+                                     alt="<?= $escaper->escapeHtml($event->getEventName()); ?>" class="rounded-l">
+                            </div>
+                        <?php endif; ?>
+                        <div class="w-4/5 pl-4">
+                            <p class="<?= $side === 'right' ? 'text-gray-500' : 'text-gray-300'; ?>">
+                                <?= $escaper->escapeHtml($event->getAddressDetails()); ?>
+                            </p>
+
+                            <div class="mt-2 flex items-center">
+                                <img src="<?=
+                                $escaper->escapeHtml($block->getViewFileUrl('Qoliber_EventCalendar::images/info.svg'));
+                                ?>"
+                                     alt="Info Icon" class="inline-block w-4 h-4 mr-2">
+                                <span class="font-bold">
+                                    <?= $escaper->escapeHtml(__('Additional Details')); ?>
+                                </span>
+                            </div>
+                            <p class="mt-2"><strong><?= $escaper->escapeHtml(__('Event URL:')); ?></strong>
+                                <a href="<?= $escaper->escapeHtml($event->getEventUrl()); ?>"
+                                   target="_blank" class="text-blue-600 underline">
+                                    <?= $escaper->escapeHtml($event->getEventUrl()); ?>
+                                </a>
+                            </p>
+
+                            <p class="mt-1"><strong><?= $escaper->escapeHtml(__('Organizer:')); ?></strong>
+                                <a href="<?= $escaper->escapeHtml($event->getOrganizerUrl()); ?>" target="_blank"
+                                   class="text-blue-600 underline">
+                                    <?= $escaper->escapeHtml($event->getOrganizerName()); ?>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+                $side = ($side === 'right') ? 'left' : 'right';
+                $period = $nextPeriod;
+                $order++;
+            ?>
+        <?php endforeach; ?>
+    </div>
+</div>

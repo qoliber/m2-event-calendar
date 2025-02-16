@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework/Event/etc/events.xsd">
+    <event name="event_validate_recaptcha">
+        <observer name="validate_recaptcha" instance="Qoliber\EventCalendar\Observer\ValidateRecaptcha" />
+    </event>
+
+    <event name="event_form_submit">
+        <observer name="event_form_submit" instance="Qoliber\EventCalendar\Observer\EventSubmitForm" />
+    </event>
+</config>

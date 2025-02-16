@@ -1,0 +1,24 @@
+{
+    "qoliber_events": {
+        "column": {
+            "entity_id": true,
+            "event_name": true,
+            "event_url": true,
+            "date_from": true,
+            "date_to": true,
+            "active": true,
+            "logo": true,
+            "country": true,
+            "address_details": true,
+            "city": true,
+            "organizer_name": true,
+            "organizer_url": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        },
+        "search": {
+            "QOLIBER_EVENTS_ENTITY_ID": true
+        }
+    }
+}

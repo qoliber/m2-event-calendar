@@ -1,0 +1,113 @@
+<?php
+
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var \Qoliber\EventCalendar\Block\Event\Form $block */
+$formAction = $block->getUrl('events/new/submit', ['_secure' => true]);
+$recaptcha = $block->getData('viewModelRecaptcha');
+?>
+
+<form action="<?= $escaper->escapeHtml($formAction) ?>" method="POST" enctype="multipart/form-data"
+      class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <?= $block->getBlockHtml('formkey') ?>
+
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+        <?= $escaper->escapeHtml(__('Submit Your Event')); ?></h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label for="event_name" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Event Name:')); ?></label>
+            <input type="text" id="event_name" name="event_name"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+            <label for="event_url" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Event URL:')); ?></label>
+            <input type="url" id="event_url" name="event_url"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <label for="address_details" class="block text-gray-700 font-medium">
+            <?= $escaper->escapeHtml(__('Address Details / Additional Details:')); ?></label>
+        <textarea id="address_details" name="address_details" rows="4"
+                  class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"></textarea>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+            <label for="country" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Event Country:')); ?></label>
+            <select id="country" name="country"
+                    required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+                <option value=""><?= $escaper->escapeHtml(__('Select Country')); ?></option>
+                <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
+                    <option value="<?= $escaper->escapeHtml($country['value']) ?>"><?=
+                        $escaper->escapeHtml(__($country['label'])); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label for="city" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Event City:')); ?></label>
+            <input type="text" id="city" name="city"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+            <label for="date_from" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Date From:')); ?></label>
+            <input type="date" id="date_from" name="date_from"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+            <label for="date_to" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Date To:')); ?></label>
+            <input type="date" id="date_to" name="date_to"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div>
+            <label for="organizer_name" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Organizer Name:')); ?></label>
+            <input type="text" id="organizer_name" name="organizer_name"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+        <div>
+            <label for="organizer_url" class="block text-gray-700 font-medium">
+                <?= $escaper->escapeHtml(__('Organizer URL:')); ?></label>
+            <input type="url" id="organizer_url" name="organizer_url"
+                   required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <label for="event_logo" class="block text-gray-700 font-medium">
+            <?= $escaper->escapeHtml(__('Event Logo:')); ?></label>
+        <input type="file" id="event_logo" name="event_logo" accept="image/*"
+               class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
+    </div>
+
+    <?= $block->getChildHtml('event.recaptcha'); ?>
+
+    <div class="mt-6 text-center">
+        <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600">
+            <?= $escaper->escapeHtml(__('Submit Event')); ?>
+        </button>
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("date_from").setAttribute("min", today);
+        document.getElementById("date_to").setAttribute("min", today);
+    });
+</script>

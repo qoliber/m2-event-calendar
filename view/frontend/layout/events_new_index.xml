@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Qoliber\EventCalendar\Block\Event\Form"
+                   name="event.form" as="event.form" template="Qoliber_EventCalendar::form.phtml">
+                <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
+                       name="event.recaptcha"
+                       after="-"
+                       template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
+                       ifconfig="recaptcha_frontend/type_for/event_form">
+                    <arguments>
+                        <argument name="recaptcha_for" xsi:type="string">event_form</argument>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="recaptcha" xsi:type="array">
+                                    <item name="component"
+                                          xsi:type="string">Magento_ReCaptchaFrontendUi/js/reCaptcha</item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

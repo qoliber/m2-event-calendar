@@ -1,0 +1,94 @@
+<?php
+
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var \Qoliber\EventCalendar\Block\Event\Form $block */
+
+$formAction = $block->getUrl('events/new/submit', ['_secure' => true]);
+$recaptcha = $block->getData('viewModelRecaptcha');
+?>
+
+<form action="<?= $escaper->escapeHtml($formAction) ?>" method="POST" enctype="multipart/form-data" class="event-form">
+    <?= $block->getBlockHtml('formkey') ?>
+
+    <!-- Flexbox container for Event Name and Country -->
+    <div class="form-group date-container">
+        <div class="date-field">
+            <label for="event_name"><?= $escaper->escapeHtml(__('Event Name:')); ?></label>
+            <input type="text" id="event_name" name="event_name" required />
+        </div>
+
+        <div class="date-field">
+            <label for="event_url"><?= $escaper->escapeHtml(__('Event URL:')); ?></label>
+            <input type="url" id="event_url" name="event_url" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="address_details">
+            <?= $escaper->escapeHtml(__('Address Details / Additional Details:')); ?></label>
+        <textarea id="address_details" name="address_details" rows="5"></textarea>
+    </div>
+
+    <div class="form-group date-container">
+        <div class="date-field">
+            <label for="country"><?= $escaper->escapeHtml(__('Event Country:')); ?></label>
+            <select id="country" name="country" required>
+                <option value=""><?= $escaper->escapeHtml(__('Select Country')); ?></option>
+                <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
+                    <option value="<?= $escaper->escapeHtml($country['value']) ?>">
+                        <?= $escaper->escapeHtml($country['label']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="date-field">
+            <label for="city"><?= $escaper->escapeHtml(__('Event City:')); ?></label>
+            <input type="text" id="city" name="city" required />
+        </div>
+    </div>
+
+    <!-- Flexbox container for date fields -->
+    <div class="form-group date-container">
+        <div class="date-field">
+            <label for="date_from"><?= $escaper->escapeHtml(__('Date From:')); ?></label>
+            <input type="date" id="date_from" name="date_from" required>
+        </div>
+
+        <div class="date-field">
+            <label for="date_to"><?= $escaper->escapeHtml(__('Date To:')); ?></label>
+            <input type="date" id="date_to" name="date_to" required>
+        </div>
+    </div>
+
+    <div class="form-group date-container">
+        <div class="date-field">
+            <label for="organizer_name"><?= $escaper->escapeHtml(__('Organizer Name:')); ?></label>
+            <input type="text" id="organizer_name" name="organizer_name" required>
+        </div>
+
+        <div class="date-field">
+            <label for="organizer_url"><?= $escaper->escapeHtml(__('Organizer Url:')); ?></label>
+            <input type="text" id="organizer_url" name="organizer_url" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="event_logo"><?= $escaper->escapeHtml(__('Event Logo:')); ?></label>
+        <input type="file" id="event_logo" name="event_logo" accept="image/*">
+    </div>
+
+    <?= $block->getChildHtml('event.recaptcha'); ?>
+    <div class="form-actions">
+        <button type="submit" class="action primary"><?= $escaper->escapeHtml(__('Submit Event')); ?></button>
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("date_from").setAttribute("min", today);
+        document.getElementById("date_to").setAttribute("min", today);
+    });
+</script>

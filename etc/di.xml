@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Qoliber\EventCalendar\Api\EventRepositoryInterface"
+                type="Qoliber\EventCalendar\Model\EventRepository" />
+    <preference for="Qoliber\EventCalendar\Api\Data\EventInterface"
+                type="Qoliber\EventCalendar\Model\Data\Event"/>
+    <preference for="Qoliber\EventCalendar\Api\Data\EventSearchResultsInterface"
+                type="Qoliber\EventCalendar\Model\EventSearchResults"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="qoliber_eventcalendar_event_listing_data_source"
+                      xsi:type="string">QoliberEventCalendarEventCollection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="QoliberEventCalendarEventCollection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">qoliber_events</argument>
+            <argument name="resourceModel" xsi:type="string">Qoliber\EventCalendar\Model\ResourceModel\Event</argument>
+        </arguments>
+    </virtualType>
+</config>

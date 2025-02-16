@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   /**
+    * Created by Qoliber
+    *
+    * @category    Qoliber
+    * @package     Qoliber_EventCalendar
+    * @author      Jakub Winkler <jwinkler@qoliber.com>
+    */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider"
+                  xsi:type="string">qoliber_eventcalendar_event_form.qoliber_eventcalendar_event_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Event Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Qoliber\EventCalendar\Block\Adminhtml\Event\Edit\SaveButton"/>
+            <button name="delete" class="Qoliber\EventCalendar\Block\Adminhtml\Event\Edit\DeleteButton"/>
+            <button name="back" class="Qoliber\EventCalendar\Block\Adminhtml\Event\Edit\BackButton"/>
+        </buttons>
+        <namespace>qoliber_eventcalendar_event_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>qoliber_eventcalendar_event_form.qoliber_eventcalendar_event_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="qoliber_eventcalendar_event_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="events/event/save"/>
+        </settings>
+        <dataProvider class="Qoliber\EventCalendar\Model\Event\DataProvider"
+                      name="qoliber_eventcalendar_event_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <field name="active" sortOrder="1" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable Event</label>
+                <dataScope>active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
+        <field name="date_from" sortOrder="10" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                </validation>
+                <visible>true</visible>
+                <label translate="true">Date From</label>
+            </settings>
+        </field>
+
+        <field name="date_to" sortOrder="20" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                </validation>
+                <visible>true</visible>
+                <label translate="true">Date To</label>
+            </settings>
+        </field>
+
+        <field name="event_name" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Event Name</label>
+            </settings>
+        </field>
+
+        <field name="event_url" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Event Url</label>
+            </settings>
+        </field>
+
+        <field name="logo" formElement="imageUploader">
+            <settings>
+                <notice translate="true">Allowed file types: jpeg, gif, png.</notice>
+                <componentType>imageUploader</componentType>
+                <dataType>string</dataType>
+                <label translate="true">Event Logo</label>
+                <visible>true</visible>
+                <required>true</required>
+            </settings>
+            <formElements>
+                <imageUploader>
+                    <settings>
+                        <allowedExtensions>jpg jpeg gif png svg</allowedExtensions>
+                        <maxFileSize>20971521</maxFileSize>
+                        <uploaderConfig>
+                            <param xsi:type="string" name="url">events/event/upload</param>
+                        </uploaderConfig>
+                    </settings>
+                </imageUploader>
+            </formElements>
+        </field>
+
+        <field name="country" component="Magento_Ui/js/form/element/ui-select" sortOrder="90" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="isRemoveSelectedIcon" xsi:type="boolean">false</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <label translate="true">Country</label>
+                <dataScope>country</dataScope>
+                <componentType>field</componentType>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\PageBuilder\Model\Config\Source\Country"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="address_details" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                    <item name="rows" xsi:type="number">5</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Address Details</label>
+            </settings>
+        </field>
+
+        <field name="city" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">City</label>
+            </settings>
+        </field>
+
+        <field name="organizer_url" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Organizer Url</label>
+            </settings>
+        </field>
+
+        <field name="organizer_name" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Event</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Organizer Name</label>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>
