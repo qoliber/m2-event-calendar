@@ -16,7 +16,7 @@
             "email": "info@qoliber.com"
         }
     ],
-    "license": "OSL-3.0",
+    "license": "MIT",
     "autoload": {
         "files": [
             "registration.php"
