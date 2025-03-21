@@ -1,6 +1,6 @@
 {
     "name": "qoliber/m2-event-calendar",
-    "version": "0.9",
+    "version": "0.9.1",
     "source": {
         "type": "git",
         "url": "git@github.com:qoliber/m2-event-calendar.git",
