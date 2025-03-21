@@ -17,7 +17,6 @@ use Magento\Framework\UrlInterface;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Backend\App\Action;
 use Magento\Store\Model\StoreManagerInterface;
-use Qoliber\HomepageSlider\Helper\Data as HomepageSliderHelper;
 
 class Upload extends Action
 {
@@ -28,14 +27,12 @@ class Upload extends Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
-     * @param \Qoliber\HomepageSlider\Helper\Data $helper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Action\Context $context,
         protected UploaderFactory $fileUploaderFactory,
         protected DirectoryList $directoryList,
-        protected HomepageSliderHelper $helper,
         protected StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
