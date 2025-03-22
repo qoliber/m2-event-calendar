@@ -53,7 +53,7 @@ class Save implements HttpPostActionInterface
         $model = $this->modelFactory->create();
 
         if (isset($data['logo'][0]['name'])) {
-            $data['logo'] = $data['logo'][0]['name'];
+            $data['logo'] = sprintf('events/%s', $data['logo'][0]['name']);
         }
 
         $model->setData($data);
@@ -67,6 +67,6 @@ class Save implements HttpPostActionInterface
         }
 
         return $this->resultRedirectFactory->create()
-            ->setPath('*/*/edit', ['entity_id' => $model->getEntityId()]);
+            ->setPath('*/*/edit', ['event_id' => $model->getEventId()]);
     }
 }

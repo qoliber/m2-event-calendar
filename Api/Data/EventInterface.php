@@ -16,10 +16,13 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface EventInterface extends ExtensibleDataInterface
 {
     /** @var string  */
-    public const ENTITY_ID = 'entity_id';
+    public const EVENT_ID = 'event_id';
 
     /** @var string  */
     public const EVENT_NAME = 'event_name';
+
+    /** @var string */
+    public const UUID = 'uuid';
 
     /** @var string  */
     public const EVENT_URL = 'event_url';
@@ -59,15 +62,15 @@ interface EventInterface extends ExtensibleDataInterface
      *
      * @return int|null
      */
-    public function getEntityId(): ?int;
+    public function getEventId(): ?int;
 
     /**
      * Set Id
      *
-     * @param int $entity_id
+     * @param int $eventId
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
-    public function setEntityId(int $entity_id): EventInterface;
+    public function setEventId(int $eventId): EventInterface;
 
     /**
      * Get Event URL
@@ -98,6 +101,21 @@ interface EventInterface extends ExtensibleDataInterface
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
     public function setEventName(?string $eventName): EventInterface;
+
+    /**
+     * Get Event Name
+     *
+     * @return string|null
+     */
+    public function getUuid(): ?string;
+
+    /**
+     * Set Event Name
+     *
+     * @param null|string $uuid
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
+     */
+    public function setUuid(?string $uuid): EventInterface;
 
     /**
      * Get Date From
@@ -254,15 +272,13 @@ interface EventInterface extends ExtensibleDataInterface
      *
      * @return \Qoliber\EventCalendar\Api\Data\EventExtensionInterface|null
      */
-    public function getExtensionAttributes(): ?\Qoliber\EventCalendar\Api\Data\EventExtensionInterface;
+    public function getExtensionAttributes(): ?EventExtensionInterface;
 
     /**
      * Set Extension Attributes
      *
      * @param \Qoliber\EventCalendar\Api\Data\EventExtensionInterface $extensionAttributes
-     * @return static
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
-    public function setExtensionAttributes(
-        \Qoliber\EventCalendar\Api\Data\EventExtensionInterface $extensionAttributes
-    ): static;
+    public function setExtensionAttributes(EventExtensionInterface $extensionAttributes): EventInterface;
 }

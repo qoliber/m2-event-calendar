@@ -11,31 +11,33 @@ declare(strict_types=1);
 
 namespace Qoliber\EventCalendar\Model\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Qoliber\EventCalendar\Api\Data\EventExtensionInterface;
 use Qoliber\EventCalendar\Api\Data\EventInterface;
 
-class Event extends AbstractExtensibleObject implements EventInterface
+class Event extends AbstractExtensibleModel implements EventInterface
 {
     /**
      * Get Entity ID
      *
      * @return int|null
      */
-    public function getEntityId(): ?int
+    public function getEventId(): ?int
     {
-        return $this->_get(self::ENTITY_ID);
+        return (int) $this->getData(self::EVENT_ID);
     }
 
     /**
      * Set Entity ID
      *
-     * @param int $entity_id
+     * @param int $eventId
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
-    public function setEntityId(int $entity_id): EventInterface
+    public function setEventId(int $eventId): EventInterface
     {
-        return $this->setData(self::ENTITY_ID, $entity_id);
+        $this->setData(self::EVENT_ID, $eventId);
+
+        return $this;
     }
 
     /**
@@ -45,7 +47,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getEventUrl(): ?string
     {
-        return $this->_get(self::EVENT_URL);
+        return $this->getData(self::EVENT_URL);
     }
 
     /**
@@ -56,7 +58,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setEventUrl(?string $eventUrl): EventInterface
     {
-        return $this->setData(self::EVENT_URL, $eventUrl);
+        $this->setData(self::EVENT_URL, $eventUrl);
+
+        return $this;
     }
 
     /**
@@ -66,7 +70,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getEventName(): ?string
     {
-        return $this->_get(self::EVENT_NAME);
+        return $this->getData(self::EVENT_NAME);
     }
 
     /**
@@ -77,7 +81,32 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setEventName(?string $eventName): EventInterface
     {
-        return $this->setData(self::EVENT_NAME, $eventName);
+        $this->setData(self::EVENT_NAME, $eventName);
+
+        return $this;
+    }
+
+    /**
+     * Get Uuid
+     *
+     * @return string|null
+     */
+    public function getUuid(): ?string
+    {
+        return $this->getData(self::UUID);
+    }
+
+    /**
+     * Set Uuid
+     *
+     * @param string|null $uuid
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
+     */
+    public function setUuid(?string $uuid): EventInterface
+    {
+        $this->setData(self::UUID, $uuid);
+
+        return $this;
     }
 
     /**
@@ -87,7 +116,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getDateFrom(): ?string
     {
-        return $this->_get(self::DATE_FROM);
+        return $this->getData(self::DATE_FROM);
     }
 
     /**
@@ -98,7 +127,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setDateFrom(string $dateFrom): EventInterface
     {
-        return $this->setData(self::DATE_FROM, $dateFrom);
+        $this->setData(self::DATE_FROM, $dateFrom);
+
+        return $this;
     }
 
     /**
@@ -108,7 +139,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getDateTo(): ?string
     {
-        return $this->_get(self::DATE_TO);
+        return $this->getData(self::DATE_TO);
     }
 
     /**
@@ -119,7 +150,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setDateTo(string $date_to): EventInterface
     {
-        return $this->setData(self::DATE_TO, $date_to);
+        $this->setData(self::DATE_TO, $date_to);
+
+        return $this;
     }
 
     /**
@@ -129,7 +162,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getActive(): ?string
     {
-        return $this->_get(self::ACTIVE);
+        return $this->getData(self::ACTIVE);
     }
 
     /**
@@ -140,7 +173,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setActive(?string $active): EventInterface
     {
-        return $this->setData(self::ACTIVE, $active);
+        $this->setData(self::ACTIVE, $active);
+
+        return $this;
     }
 
     /**
@@ -150,7 +185,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getLogo(): ?string
     {
-        return $this->_get(self::LOGO);
+        return $this->getData(self::LOGO);
     }
 
     /**
@@ -161,7 +196,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setLogo(?string $logo): EventInterface
     {
-        return $this->setData(self::LOGO, $logo);
+        $this->setData(self::LOGO, $logo);
+
+        return $this;
     }
 
     /**
@@ -171,7 +208,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getUrl(): ?string
     {
-        return $this->_get(self::URL);
+        return $this->getData(self::URL);
     }
 
     /**
@@ -182,7 +219,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setUrl(string $url): EventInterface
     {
-        return $this->setData(self::URL, $url);
+        $this->setData(self::URL, $url);
+
+        return $this;
     }
 
     /**
@@ -192,7 +231,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getCountry(): ?string
     {
-        return $this->_get(self::COUNTRY);
+        return $this->getData(self::COUNTRY);
     }
 
     /**
@@ -203,7 +242,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setCountry(?string $country): EventInterface
     {
-        return $this->setData(self::COUNTRY, $country);
+        $this->setData(self::COUNTRY, $country);
+
+        return $this;
     }
 
     /**
@@ -213,7 +254,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getAddressDetails(): ?string
     {
-        return $this->_get(self::ADDRESS_DETAILS);
+        return $this->getData(self::ADDRESS_DETAILS);
     }
 
     /**
@@ -224,7 +265,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setAddressDetails(string $address_details): EventInterface
     {
-        return $this->setData(self::ADDRESS_DETAILS, $address_details);
+        $this->setData(self::ADDRESS_DETAILS, $address_details);
+
+        return $this;
     }
 
     /**
@@ -234,7 +277,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getCity(): ?string
     {
-        return $this->_get(self::CITY);
+        return $this->getData(self::CITY);
     }
 
     /**
@@ -245,7 +288,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setCity(?string $city): EventInterface
     {
-        return $this->setData(self::CITY, $city);
+        $this->setData(self::CITY, $city);
+
+        return $this;
     }
 
     /**
@@ -255,7 +300,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getOrganizerUrl(): ?string
     {
-        return $this->_get(self::ORGANIZER_URL);
+        return $this->getData(self::ORGANIZER_URL);
     }
 
     /**
@@ -266,7 +311,9 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setOrganizerUrl(?string $organizer_url): EventInterface
     {
-        return $this->setData(self::ORGANIZER_URL, $organizer_url);
+        $this->setData(self::ORGANIZER_URL, $organizer_url);
+
+        return $this;
     }
 
     /**
@@ -276,7 +323,7 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function getOrganizerName(): ?string
     {
-        return $this->_get(self::ORGANIZER_NAME);
+        return $this->getData(self::ORGANIZER_NAME);
     }
 
     /**
@@ -287,28 +334,31 @@ class Event extends AbstractExtensibleObject implements EventInterface
      */
     public function setOrganizerName(string $organizer_name): EventInterface
     {
-        return $this->setData(self::ORGANIZER_NAME, $organizer_name);
+        $this->setData(self::ORGANIZER_NAME, $organizer_name);
+
+        return $this;
     }
 
     /**
      * Get Extension Attributes
      *
-     * @return \Qoliber\EventCalendar\Api\Data\EventExtensionInterface
+     * @return \Qoliber\EventCalendar\Api\Data\EventExtensionInterface|null
      */
-    public function getExtensionAttributes(): EventExtensionInterface
+    public function getExtensionAttributes(): ?EventExtensionInterface
     {
-        return $this->_getExtensionAttributes();
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**
      * Set Extension Attributes
      *
      * @param \Qoliber\EventCalendar\Api\Data\EventExtensionInterface $extensionAttributes
-     * @return $this
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
-    public function setExtensionAttributes(
-        EventExtensionInterface $extensionAttributes
-    ): static {
-        return $this->_setExtensionAttributes($extensionAttributes);
+    public function setExtensionAttributes(EventExtensionInterface $extensionAttributes): EventInterface
+    {
+        $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
+
+        return $this;
     }
 }

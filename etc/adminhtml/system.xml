@@ -11,6 +11,24 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
+        <section id="qoliber_event_calendar" translate="label" sortOrder="70" showInDefault="1">
+            <class>separator-top</class>
+            <label>Event Calendar Config</label>
+            <tab>qoliber</tab>
+            <resource>Qoliber_EventCalendar::config</resource>
+            <group id="seo" translate="label" sortOrder="10" showInDefault="1">
+                <label>SEO Configuration</label>
+                <field id="meta_title" translate="label comment" type="text" sortOrder="10" showInDefault="1">
+                    <label>Meta Title</label>
+                </field>
+                <field id="meta_description" translate="label comment" type="textarea" sortOrder="10" showInDefault="1">
+                    <label>Meta Description</label>
+                </field>
+                <field id="meta_keywords" translate="label comment" type="textarea" sortOrder="10" showInDefault="1">
+                    <label>Meta Keywords</label>
+                </field>
+            </group>
+        </section>
         <section id="recaptcha_frontend">
             <group id="type_for">
                 <field id="event_form" translate="label" type="select"

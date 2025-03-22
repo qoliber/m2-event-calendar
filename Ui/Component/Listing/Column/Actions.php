@@ -53,13 +53,13 @@ class Actions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
-                if (isset($item['entity_id'])) {
+                if (isset($item['event_id'])) {
                     $item[$this->getData('name')] = [
                         'edit' => [
                             'href' => $this->urlBuilder->getUrl(
                                 static::URL_PATH_EDIT,
                                 [
-                                    'entity_id' => $item['entity_id']
+                                    'event_id' => $item['event_id']
                                 ]
                             ),
                             'label' => __('Edit')
@@ -68,7 +68,7 @@ class Actions extends Column
                             'href' => $this->urlBuilder->getUrl(
                                 static::URL_PATH_DELETE,
                                 [
-                                    'entity_id' => $item['entity_id']
+                                    'event_id' => $item['event_id']
                                 ]
                             ),
                             'label' => __('Delete'),

@@ -58,12 +58,10 @@ class Submit implements HttpPostActionInterface
                 $this->messageManager->addSuccessMessage(__('Form submitted successfully.'));
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
-            } catch (\Exception) {
+            } catch (\Exception $e) {
                 // @phpstan-ignore-next-line
                 $this->messageManager->addErrorMessage(__('An error occurred: %1', $e->getMessage()));
             }
-            // @phpstan-ignore-next-line
-            $this->messageManager->addSuccessMessage(__('Form submitted successfully.'));
         } else {
             // @phpstan-ignore-next-line
             $this->messageManager->addErrorMessage(__('Empty Post Request.'));

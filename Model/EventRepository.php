@@ -13,6 +13,7 @@ use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -60,7 +61,6 @@ class EventRepository implements EventRepositoryInterface
             [],
             EventInterface::class
         );
-
         $eventModel = $this->eventFactory->create()->setData($eventData);
 
         try {
@@ -124,7 +124,7 @@ class EventRepository implements EventRepositoryInterface
     /**
      * Get active events
      *
-     * @return EventInterface[]
+     * @return \Magento\Framework\DataObject[]
      */
     public function getActiveEvents(): array
     {
@@ -145,7 +145,7 @@ class EventRepository implements EventRepositoryInterface
     {
         try {
             $eventModel = $this->eventFactory->create();
-            $this->resource->load($eventModel, $entity->getEntityId());
+            $this->resource->load($eventModel, $entity->getEventId());
             $this->resource->delete($eventModel);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__(

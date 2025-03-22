@@ -13,11 +13,17 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Magento_Backend::content">
-                    <resource id="Qoliber_EventCalendar::Event" title="EventCalendar" translate="title" sortOrder="900">
-                        <resource id="Qoliber_EventCalendar::Events" title="EventCalendars" translate="title">
-                            <resource id="Qoliber_EventCalendar::Event_save" title="Save" translate="title"/>
-                            <resource id="Qoliber_EventCalendar::Event_delete" title="Delete" translate="title"/>
+                <resource id="Qoliber_EventCalendar::Event" title="EventCalendar" translate="title" sortOrder="900">
+                    <resource id="Qoliber_EventCalendar::Events" title="EventCalendars" translate="title">
+                        <resource id="Qoliber_EventCalendar::Event_save" title="Save" translate="title"/>
+                        <resource id="Qoliber_EventCalendar::Event_delete" title="Delete" translate="title"/>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Qoliber_EventCalendar::config"
+                                      title="Event Calendar Configuration" sortOrder="2000"/>
                         </resource>
                     </resource>
                 </resource>

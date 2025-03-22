@@ -46,7 +46,7 @@ class Delete extends Action implements HttpPostActionInterface
     public function execute(): Redirect
     {
         try {
-            $id = $this->getRequest()->getParam('entity_id');
+            $id = $this->getRequest()->getParam('event_id');
             /** @var Event $model */
             $model = $this->modelFactory->create();
             $this->modelResource->load($model, $id);

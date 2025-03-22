@@ -35,15 +35,15 @@
         <settings>
             <updateUrl path="mui/index/render"/>
             <storageConfig>
-                <param name="indexField" xsi:type="string">entity_id</param>
+                <param name="indexField" xsi:type="string">event_id</param>
             </storageConfig>
         </settings>
         <aclResource>EventCalendar_Qoliber::Event</aclResource>
         <dataProvider name="qoliber_eventcalendar_event_listing_data_source"
                       class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
             <settings>
-                <requestFieldName>entity_id</requestFieldName>
-                <primaryFieldName>entity_id</primaryFieldName>
+                <requestFieldName>event_id</requestFieldName>
+                <primaryFieldName>event_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -59,7 +59,7 @@
                 <selectProvider>
         qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_columns.ids
                 </selectProvider>
-                <indexField>entity_id</indexField>
+                <indexField>event_id</indexField>
             </settings>
             <action name="delete">
                 <settings>
@@ -80,9 +80,9 @@
                 <indexField>id</indexField>
             </settings>
         </selectionsColumn>
-        <column name="entity_id">
+        <column name="event_id">
             <settings>
-                <label translate="true">Entity Id</label>
+                <label translate="true">Event Id</label>
             </settings>
         </column>
         <column name="event_name">
@@ -127,7 +127,7 @@
         </column>
         <actionsColumn name="actions" class="Qoliber\EventCalendar\Ui\Component\Listing\Column\Actions">
             <settings>
-                <indexField>entity_id</indexField>
+                <indexField>event_id</indexField>
             </settings>
         </actionsColumn>
     </columns>

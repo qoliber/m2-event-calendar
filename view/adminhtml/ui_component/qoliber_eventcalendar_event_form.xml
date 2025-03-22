@@ -42,8 +42,8 @@
         <dataProvider class="Qoliber\EventCalendar\Model\Event\DataProvider"
                       name="qoliber_eventcalendar_event_form_data_source">
             <settings>
-                <requestFieldName>entity_id</requestFieldName>
-                <primaryFieldName>entity_id</primaryFieldName>
+                <requestFieldName>event_id</requestFieldName>
+                <primaryFieldName>event_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>

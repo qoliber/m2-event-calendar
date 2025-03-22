@@ -11,8 +11,29 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Qoliber_EventCalendar::Event" title="Event Calendar" translate="title"
-             module="Qoliber_EventCalendar" sortOrder="1000" parent="Magento_Backend::marketing"
-             resource="Qoliber_EventCalendar::Event" action="events/event/index"/>
+        <add id="Qoliber_EventCalendar::menu"
+             translate="title"
+             title="Events Calendar"
+             module="Qoliber_EventCalendar"
+             sortOrder="5000"
+             resource="Qoliber_EventCalendar::Event"
+             parent="Qoliber_Core::menu"
+             />
+
+        <add id="Qoliber_EventCalendar::config"
+             title="Manage Events"
+             module="Qoliber_EventCalendar"
+             sortOrder="10"
+             action="events/event/index"
+             resource="Qoliber_SeoDynamicTags::config"
+             parent="Qoliber_EventCalendar::menu"/>
+
+        <add id="Qoliber_EventCalendar::list"
+             title="Configuration"
+             module="Qoliber_EventCalendar"
+             sortOrder="20"
+             action="adminhtml/system_config/edit/section/qoliber_event_calendar"
+             resource="Qoliber_EventCalendar::config"
+             parent="Qoliber_EventCalendar::menu"/>
     </menu>
 </config>

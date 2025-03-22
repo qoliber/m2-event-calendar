@@ -41,15 +41,15 @@ class GenericButton
      * @return int|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getId(): ?int
+    public function getEventId(): ?int
     {
-        $id = (int) $this->context->getRequest()->getParam('entity_id');
+        $id = (int) $this->context->getRequest()->getParam('event_id');
         if (!$id) {
             return null;
         }
 
         try {
-            return $this->repository->get($id)->getEntityId();
+            return $this->repository->get($id)->getEventId();
         } catch (NoSuchEntityException $e) {
             throw new NoSuchEntityException(__($e->getMessage()));
         }

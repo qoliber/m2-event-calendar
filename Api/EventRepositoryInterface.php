@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Qoliber\EventCalendar\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\DataObject;
 use Qoliber\EventCalendar\Api\Data\EventInterface;
 use Qoliber\EventCalendar\Api\Data\EventSearchResultsInterface;
 
@@ -36,7 +37,7 @@ interface EventRepositoryInterface
     /**
      * Get active events
      *
-     * @return EventInterface[]
+     * @return \Magento\Framework\DataObject[]
      */
     public function getActiveEvents(): array;
 

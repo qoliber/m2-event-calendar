@@ -63,25 +63,24 @@ class DataProvider extends AbstractDataProvider
     public function getData(): array
     {
         $data = parent::getData();
-        $path = $this->directoryList->getPath('media') . DIRECTORY_SEPARATOR . Upload::EVENTS_IMAGES_DIRECTORY;
+        $path = $this->directoryList->getPath('media');
         $mediaBaseUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
         $items = [];
 
         foreach ($data['items'] as $item) {
-            $items[$item['entity_id']] = $item;
+            $items[$item['event_id']] = $item;
 
             if ($item['logo'] !== null) {
                 $eventLogo = sprintf('%s/%s', $path, $item['logo']);
                 $stat = $this->fileInfo->getStat($eventLogo);
                 $mimeType = $this->fileInfo->getMimeType($eventLogo);
-                $items[$item['entity_id']]['logo'] = [
+                $items[$item['event_id']]['logo'] = [
                     [
                         // phpcs:ignore Magento2.Functions.DiscouragedFunction
                         'name' => basename($eventLogo),
                         'url' =>  sprintf(
-                            '%s%s/%s',
+                            '%s/%s',
                             $mediaBaseUrl,
-                            Upload::EVENTS_IMAGES_DIRECTORY,
                             $item['logo']
                         ),
                         'size' => $stat['size'],

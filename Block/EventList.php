@@ -77,9 +77,8 @@ class EventList extends Template
 
         if ($logo) {
             return sprintf(
-                '%s%s/%s',
+                '%s/%s',
                 $mediaBaseUrl,
-                Upload::EVENTS_IMAGES_DIRECTORY,
                 $logo
             );
         }

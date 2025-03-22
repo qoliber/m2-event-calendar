@@ -1,8 +1,9 @@
 {
     "qoliber_events": {
         "column": {
-            "entity_id": true,
+            "event_id": true,
             "event_name": true,
+            "uuid": true,
             "event_url": true,
             "date_from": true,
             "date_to": true,
@@ -18,7 +19,7 @@
             "PRIMARY": true
         },
         "search": {
-            "QOLIBER_EVENTS_ENTITY_ID": true
+            "QOLIBER_EVENTS_EVENT_ID": true
         }
     }
 }

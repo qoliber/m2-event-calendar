@@ -11,6 +11,19 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
+        <qoliber_event_calendar>
+            <seo>
+                <meta_title>
+                    <![CDATA[Magento Association - Event Calendar]]>
+                </meta_title>
+                <meta_description>
+                    <![CDATA[Stay up to date with the latest Magento and eCommerce events]]>
+                </meta_description>
+                <meta_keywords>
+                    <![CDATA[Magento events, eCommerce events, Magento conference]]>
+                </meta_keywords>
+            </seo>
+        </qoliber_event_calendar>
         <system>
             <media_storage_configuration>
                 <allowed_resources>
