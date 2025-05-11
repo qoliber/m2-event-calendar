@@ -11,62 +11,85 @@ declare(strict_types=1);
 
 namespace Qoliber\EventCalendar\Controller\Adminhtml\Event;
 
-use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\RequestInterface;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Qoliber\EventCalendar\Api\EventRepositoryInterface;
 use Qoliber\EventCalendar\Model\EventFactory;
 
-class Save implements HttpPostActionInterface
+class Save extends Action
 {
     /** @var string  */
     public const ADMIN_RESOURCE = 'Qoliber_EventCalendar::Event_save';
 
     /**
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Qoliber\EventCalendar\Api\EventRepositoryInterface $repository
      * @param \Qoliber\EventCalendar\Model\EventFactory $modelFactory
+     * @param \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
      */
     public function __construct(
-        private readonly RequestInterface $request,
-        private readonly ManagerInterface $messageManager,
-        private readonly RedirectFactory $resultRedirectFactory,
+        protected Context $context,
         private readonly EventRepositoryInterface $repository,
         private readonly EventFactory $modelFactory,
+        private readonly DataPersistorInterface $dataPersistor
     ) {
+        parent::__construct($context);
     }
 
     /**
-     * Execute Controller
+     * Execute action
      *
-     * @return \Magento\Framework\Controller\ResultInterface|\Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\Result\Redirect
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
      */
-    public function execute(): ResultInterface|ResponseInterface|\Magento\Framework\Controller\Result\Redirect
+    public function execute(): ResponseInterface|ResultInterface
     {
-        // @phpstan-ignore-next-line
-        $data = $this->request->getPostValue();
-        $model = $this->modelFactory->create();
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $data = $this->getRequest()->getParams();
 
-        if (isset($data['logo'][0]['name'])) {
-            $data['logo'] = sprintf('events/%s', $data['logo'][0]['name']);
+        if ($data) {
+            $id = $this->getRequest()->getParam('entity_id');
+
+            $model = $this->modelFactory->create();
+
+            if ($id) {
+                $model = $this->repository->get((int) $id);
+            }
+
+            if (isset($data['logo']) && is_array($data['logo'])) {
+                if (isset($data['logo'][0]['name'])) {
+                    $data['logo'] = sprintf('events/%s', $data['logo'][0]['name']);
+                } else {
+                    $data['logo'] = '';
+                }
+            }
+
+            $model->addData($data); // @phpstan-ignore-line
+
+            try {
+                $model = $this->repository->save($model);
+                $this->messageManager->addSuccessMessage(__('You saved the event.')->render());
+                $this->dataPersistor->clear('event');
+
+                if ($this->getRequest()->getParam('back')) {
+                    return $resultRedirect->setPath('*/*/edit', ['entity_id' => $model->getEntityId()]);
+                }
+
+                return $resultRedirect->setPath('*/*/');
+            } catch (\Exception $e) {
+                $this->messageManager->addExceptionMessage(
+                    $e,
+                    __('Something went wrong while saving the event. %1', $e->getMessage())->render()
+                );
+            }
+
+            $this->dataPersistor->set('event', $data);
+            return $resultRedirect->setPath('*/*/edit', ['entity_id' => $id]);
         }
 
-        $model->setData($data);
-
-        try {
-            $model = $this->repository->save($model->getDataModel());
-            // @phpstan-ignore-next-line
-            $this->messageManager->addSuccessMessage(__('You saved the event.'));
-        } catch (\Exception $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
-        }
-
-        return $this->resultRedirectFactory->create()
-            ->setPath('*/*/edit', ['event_id' => $model->getEventId()]);
+        return $resultRedirect->setPath('*/*/');
     }
 }

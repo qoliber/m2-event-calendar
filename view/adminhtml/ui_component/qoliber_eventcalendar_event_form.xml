@@ -42,8 +42,8 @@
         <dataProvider class="Qoliber\EventCalendar\Model\Event\DataProvider"
                       name="qoliber_eventcalendar_event_form_data_source">
             <settings>
-                <requestFieldName>event_id</requestFieldName>
-                <primaryFieldName>event_id</primaryFieldName>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -144,8 +144,8 @@
             <formElements>
                 <imageUploader>
                     <settings>
-                        <allowedExtensions>jpg jpeg gif png svg</allowedExtensions>
-                        <maxFileSize>20971521</maxFileSize>
+                        <allowedExtensions>jpg jpeg gif png svg webp</allowedExtensions>
+                        <maxFileSize>209715210  </maxFileSize>
                         <uploaderConfig>
                             <param xsi:type="string" name="url">events/event/upload</param>
                         </uploaderConfig>
@@ -171,11 +171,14 @@
                 <label translate="true">Country</label>
                 <dataScope>country</dataScope>
                 <componentType>field</componentType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
             </settings>
             <formElements>
                 <select>
                     <settings>
-                        <options class="Magento\PageBuilder\Model\Config\Source\Country"/>
+                        <options class="Qoliber\EventCalendar\Model\Source\Country"/>
                     </settings>
                 </select>
             </formElements>

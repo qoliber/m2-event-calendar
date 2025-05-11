@@ -51,7 +51,7 @@ class Upload extends Action
             $uploader->setFilesDispersion(false);
             $uploader->setFilenamesCaseSensitivity(false);
             $uploader->setAllowRenameFiles(true);
-            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png', 'svg']);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png', 'svg', 'webp']);
             $path = $this->directoryList->getPath('media') . DIRECTORY_SEPARATOR . self::EVENTS_IMAGES_DIRECTORY;
             $result = $uploader->save($path);
 

@@ -68,13 +68,13 @@ class DataProvider extends AbstractDataProvider
         $items = [];
 
         foreach ($data['items'] as $item) {
-            $items[$item['event_id']] = $item;
+            $items[$item['entity_id']] = $item;
 
             if ($item['logo'] !== null) {
                 $eventLogo = sprintf('%s/%s', $path, $item['logo']);
                 $stat = $this->fileInfo->getStat($eventLogo);
                 $mimeType = $this->fileInfo->getMimeType($eventLogo);
-                $items[$item['event_id']]['logo'] = [
+                $items[$item['entity_id']]['logo'] = [
                     [
                         // phpcs:ignore Magento2.Functions.DiscouragedFunction
                         'name' => basename($eventLogo),

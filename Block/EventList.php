@@ -42,26 +42,13 @@ class EventList extends Template
     }
 
     /**
-     * Ge List of Active Events
+     * Get List of Active Events
      *
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface[]
      */
     public function getActiveEvents(): array
     {
-        $sortOrder = $this->sortOrderBuilder
-            ->setField('date_from')
-            ->setAscendingDirection()
-            ->create();
-
-        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-        $searchCriteria = $searchCriteriaBuilder
-            ->addFilter('active', 1)
-            ->addSortOrder($sortOrder)
-            ->create();
-
-        $eventList = $this->eventRepository->getList($searchCriteria);
-
-        return $eventList->getItems();
+        return $this->eventRepository->getActiveEvents();
     }
 
     /**

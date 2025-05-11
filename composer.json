@@ -1,6 +1,6 @@
 {
     "name": "qoliber/m2-event-calendar",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "require": {
         "qoliber/core": "*",
         "ramsey/uuid": "*"

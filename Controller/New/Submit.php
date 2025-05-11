@@ -54,13 +54,8 @@ class Submit implements HttpPostActionInterface
             try {
                 $this->eventManager->dispatch('event_validate_recaptcha', ['request' => $this->request]);
                 $this->eventManager->dispatch('event_form_submit', ['request' => $this->request]);
-                // @phpstan-ignore-next-line
-                $this->messageManager->addSuccessMessage(__('Form submitted successfully.'));
-            } catch (LocalizedException $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                // @phpstan-ignore-next-line
-                $this->messageManager->addErrorMessage(__('An error occurred: %1', $e->getMessage()));
+                $this->messageManager->addErrorMessage(__('An error occurred: %1', $e->getMessage())->render());
             }
         } else {
             // @phpstan-ignore-next-line

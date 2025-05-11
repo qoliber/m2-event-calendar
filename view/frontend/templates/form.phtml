@@ -35,7 +35,6 @@ $recaptcha = $block->getData('viewModelRecaptcha');
         <div class="date-field">
             <label for="country"><?= $escaper->escapeHtml(__('Event Country:')); ?></label>
             <select id="country" name="country" required>
-                <option value=""><?= $escaper->escapeHtml(__('Select Country')); ?></option>
                 <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
                     <option value="<?= $escaper->escapeHtml($country['value']) ?>">
                         <?= $escaper->escapeHtml($country['label']) ?></option>

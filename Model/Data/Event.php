@@ -11,33 +11,31 @@ declare(strict_types=1);
 
 namespace Qoliber\EventCalendar\Model\Data;
 
-use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\AbstractModel;
 use Qoliber\EventCalendar\Api\Data\EventExtensionInterface;
 use Qoliber\EventCalendar\Api\Data\EventInterface;
 
-class Event extends AbstractExtensibleModel implements EventInterface
+class Event extends AbstractModel implements EventInterface
 {
     /**
-     * Get Entity ID
+     * Get entity ID
      *
      * @return int|null
      */
-    public function getEventId(): ?int
+    public function getEntityId(): ?int
     {
-        return (int) $this->getData(self::EVENT_ID);
+        return $this->getData(self::ENTITY_ID) ? (int) $this->getData(self::ENTITY_ID) : null;
     }
 
     /**
-     * Set Entity ID
+     * Set entity ID
      *
-     * @param int $eventId
-     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
+     * @param $entityId
+     * @return $this
      */
-    public function setEventId(int $eventId): EventInterface
+    public function setEntityId($entityId): EventInterface
     {
-        $this->setData(self::EVENT_ID, $eventId);
-
-        return $this;
+        return $this->setData(self::ENTITY_ID, $entityId);
     }
 
     /**

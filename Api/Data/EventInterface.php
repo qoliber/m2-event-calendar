@@ -16,7 +16,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface EventInterface extends ExtensibleDataInterface
 {
     /** @var string  */
-    public const EVENT_ID = 'event_id';
+    public const ENTITY_ID = 'entity_id';
 
     /** @var string  */
     public const EVENT_NAME = 'event_name';
@@ -62,15 +62,15 @@ interface EventInterface extends ExtensibleDataInterface
      *
      * @return int|null
      */
-    public function getEventId(): ?int;
+    public function getEntityId(): ?int;
 
     /**
      * Set Id
      *
-     * @param int $eventId
+     * @param $entityId
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
-    public function setEventId(int $eventId): EventInterface;
+    public function setEntityId($entityId): EventInterface;
 
     /**
      * Get Event URL

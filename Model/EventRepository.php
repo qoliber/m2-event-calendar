@@ -13,12 +13,10 @@ use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\DataObject;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Qoliber\EventCalendar\Api\Data\EventInterface;
-use Qoliber\EventCalendar\Api\Data\EventInterfaceFactory;
 use Qoliber\EventCalendar\Api\Data\EventSearchResultsInterface;
 use Qoliber\EventCalendar\Api\Data\EventSearchResultsInterfaceFactory;
 use Qoliber\EventCalendar\Api\EventRepositoryInterface;
@@ -61,6 +59,12 @@ class EventRepository implements EventRepositoryInterface
             [],
             EventInterface::class
         );
+
+        // Convert active to integer if it's a string
+        if (isset($eventData['active']) && is_string($eventData['active'])) {
+            $eventData['active'] = (int)$eventData['active'];
+        }
+
         $eventModel = $this->eventFactory->create()->setData($eventData);
 
         try {
@@ -71,6 +75,7 @@ class EventRepository implements EventRepositoryInterface
                 $exception->getMessage()
             ));
         }
+
         return $eventModel->getDataModel();
     }
 
@@ -85,9 +90,11 @@ class EventRepository implements EventRepositoryInterface
     {
         $event = $this->eventFactory->create();
         $this->resource->load($event, $id);
+
         if (!$event->getId()) {
             throw new NoSuchEntityException(__('Event with id "%1" does not exist.', $id));
         }
+
         return $event->getDataModel();
     }
 
@@ -145,7 +152,7 @@ class EventRepository implements EventRepositoryInterface
     {
         try {
             $eventModel = $this->eventFactory->create();
-            $this->resource->load($eventModel, $entity->getEventId());
+            $this->resource->load($eventModel, $entity->getEntityId());
             $this->resource->delete($eventModel);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__(

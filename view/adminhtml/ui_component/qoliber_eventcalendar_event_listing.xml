@@ -35,15 +35,15 @@
         <settings>
             <updateUrl path="mui/index/render"/>
             <storageConfig>
-                <param name="indexField" xsi:type="string">event_id</param>
+                <param name="indexField" xsi:type="string">entity_id</param>
             </storageConfig>
         </settings>
         <aclResource>EventCalendar_Qoliber::Event</aclResource>
         <dataProvider name="qoliber_eventcalendar_event_listing_data_source"
                       class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
             <settings>
-                <requestFieldName>event_id</requestFieldName>
-                <primaryFieldName>event_id</primaryFieldName>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -59,7 +59,7 @@
                 <selectProvider>
         qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_listing.qoliber_eventcalendar_event_columns.ids
                 </selectProvider>
-                <indexField>event_id</indexField>
+                <indexField>entity_id</indexField>
             </settings>
             <action name="delete">
                 <settings>
@@ -80,7 +80,7 @@
                 <indexField>id</indexField>
             </settings>
         </selectionsColumn>
-        <column name="event_id">
+        <column name="entity_id">
             <settings>
                 <label translate="true">Event Id</label>
             </settings>
@@ -127,7 +127,7 @@
         </column>
         <actionsColumn name="actions" class="Qoliber\EventCalendar\Ui\Component\Listing\Column\Actions">
             <settings>
-                <indexField>event_id</indexField>
+                <indexField>entity_id</indexField>
             </settings>
         </actionsColumn>
     </columns>

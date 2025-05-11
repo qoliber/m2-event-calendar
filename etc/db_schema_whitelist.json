@@ -1,7 +1,7 @@
 {
     "qoliber_events": {
         "column": {
-            "event_id": true,
+            "entity_id": true,
             "event_name": true,
             "uuid": true,
             "event_url": true,

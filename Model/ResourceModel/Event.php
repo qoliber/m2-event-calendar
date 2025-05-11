@@ -14,7 +14,6 @@ namespace Qoliber\EventCalendar\Model\ResourceModel;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Qoliber\EventCalendar\Api\Data\EventInterface;
-use Qoliber\EventCalendar\Generator\UuidGenerator;
 use Ramsey\Uuid\Uuid;
 
 class Event extends AbstractDb
@@ -23,7 +22,7 @@ class Event extends AbstractDb
     public const MAIN_TABLE = 'qoliber_events';
 
     /** @var string  */
-    public const ID_FIELD_NAME = 'event_id';
+    public const ID_FIELD_NAME = 'entity_id';
 
     /**
      * Perform actions before entity save
@@ -38,9 +37,7 @@ class Event extends AbstractDb
             $object->setData(EventInterface::UUID, Uuid::uuid4());
         }
 
-        parent::save($object);
-
-        return $this;
+        return parent::save($object);
     }
 
     /**

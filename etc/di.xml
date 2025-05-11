@@ -17,6 +17,13 @@
     <preference for="Qoliber\EventCalendar\Api\Data\EventSearchResultsInterface"
                 type="Qoliber\EventCalendar\Model\EventSearchResults"/>
 
+    <type name="Qoliber\EventCalendar\Model\Source\Country">
+        <arguments>
+            <argument name="countryCollectionFactory" 
+            xsi:type="object">Magento\Directory\Model\ResourceModel\Country\CollectionFactory</argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
