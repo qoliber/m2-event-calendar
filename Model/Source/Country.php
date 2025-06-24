@@ -35,9 +35,10 @@ class Country implements OptionSourceInterface
         $collection = $this->countryCollectionFactory->create();
 
         foreach ($collection as $country) {
+            $label = $country->getName() ?: $country->getCountryId(); // fallback to country code
             $options[] = [
                 'value' => $country->getCountryId(),
-                'label' => $country->getName()
+                'label' => (string)$label,
             ];
         }
 

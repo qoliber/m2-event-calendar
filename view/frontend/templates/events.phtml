@@ -76,7 +76,7 @@ $order = 0;
                                              alt="Info Icon" width="16" height="16" />
                                         <span><?= $escaper->escapeHtml(__('Additional Details')); ?></span>
                                     </div>
-                                    <p><?= $escaper->escapeHtml($event->getAddressDetails()); ?></p>
+                                    <p><?= nl2br($escaper->escapeHtml($event->getAddressDetails())); ?></p>
                                     <p>
                                         <strong>Event URL: </strong>
                                         <a href="<?= $escaper->escapeHtml($event->getEventUrl()); ?>"

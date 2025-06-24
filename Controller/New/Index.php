@@ -34,6 +34,8 @@ class Index implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        return $this->resultPageFactory->create();
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->set(__('Create New Event'));
+        return $resultPage;
     }
 }
