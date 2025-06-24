@@ -12,7 +12,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <qoliber_event_calendar>
-            <seo>
+            <seo_list>
                 <meta_title>
                     <![CDATA[Magento Association - Event Calendar]]>
                 </meta_title>
@@ -22,7 +22,18 @@
                 <meta_keywords>
                     <![CDATA[Magento events, eCommerce events, Magento conference]]>
                 </meta_keywords>
-            </seo>
+            </seo_list>
+            <seo_new>
+                <meta_title>
+                    <![CDATA[Magento Association—Add New Event]]>
+                </meta_title>
+                <meta_description>
+                    <![CDATA[Stay up to date with the latest Magento and eCommerce events]]>
+                </meta_description>
+                <meta_keywords>
+                    <![CDATA[Magento events, eCommerce events, Magento conference, Meet Magento]]>
+                </meta_keywords>
+            </seo_new>
         </qoliber_event_calendar>
         <system>
             <media_storage_configuration>

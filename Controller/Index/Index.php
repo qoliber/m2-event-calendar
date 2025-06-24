@@ -25,7 +25,7 @@ class Index implements HttpGetActionInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        protected \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        protected PageFactory $resultPageFactory,
         protected Config $pageConfig,
         private readonly ScopeConfigInterface $scopeConfig,
     ) {
@@ -38,7 +38,6 @@ class Index implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        $resultPage = $this->resultPageFactory ->create();
         $this->pageConfig->setMetaTitle($this->scopeConfig->getValue('qoliber_event_calendar/seo/meta_title'));
         $this->pageConfig->setDescription(
             $this->scopeConfig->getValue('qoliber_event_calendar/seo/meta_description')

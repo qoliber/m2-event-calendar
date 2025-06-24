@@ -12,18 +12,22 @@ declare(strict_types=1);
 namespace Qoliber\EventCalendar\Controller\New;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Result\PageFactory;
 
 class Index implements HttpGetActionInterface
 {
     /**
-     * Constructor
-     *
-     * @param PageFactory $resultPageFactory
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        protected PageFactory $resultPageFactory
+        protected PageFactory $resultPageFactory,
+        protected Config $pageConfig,
+        private readonly ScopeConfigInterface $scopeConfig,
     ) {
     }
 
@@ -34,8 +38,13 @@ class Index implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->set(__('Create New Event'));
-        return $resultPage;
+        $this->pageConfig->setMetaTitle($this->scopeConfig->getValue('qoliber_event_calendar/seo_new/meta_title'));
+        $this->pageConfig->setDescription(
+            $this->scopeConfig->getValue('qoliber_event_calendar/seo_new/meta_description')
+        );
+        $this->pageConfig->setKeywords($this->scopeConfig->getValue('qoliber_event_calendar/seo_new/meta_keywords'));
+        $this->pageConfig->getTitle()->set($this->scopeConfig->getValue('qoliber_event_calendar/seo_new/meta_title'));
+
+        return $this->resultPageFactory->create();
     }
 }

@@ -76,7 +76,7 @@ $side = 'text-right';
                         <?php endif; ?>
                         <div class="w-4/5 pl-4">
                             <p class="<?= $side === 'right' ? 'text-gray-500' : 'text-gray-300'; ?>">
-                                <?= $escaper->escapeHtml($event->getAddressDetails()); ?>
+                                <?= nl2br($escaper->escapeHtml($event->getAddressDetails())); ?>
                             </p>
 
                             <div class="mt-2 flex items-center">
@@ -85,7 +85,7 @@ $side = 'text-right';
                                 ?>"
                                      alt="Info Icon" class="inline-block w-4 h-4 mr-2">
                                 <span class="font-bold">
-                                    <?= $escaper->escapeHtml(__('Additional Details')); ?>
+                                    <?= nl2br($escaper->escapeHtml(__('Additional Details'))); ?>
                                 </span>
                             </div>
                             <p class="mt-2"><strong><?= $escaper->escapeHtml(__('Event URL:')); ?></strong>
