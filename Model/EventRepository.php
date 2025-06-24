@@ -131,7 +131,7 @@ class EventRepository implements EventRepositoryInterface
     /**
      * Get active events
      *
-     * @return \Magento\Framework\DataObject[]
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface[]
      */
     public function getActiveEvents(): array
     {
