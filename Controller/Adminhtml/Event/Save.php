@@ -16,7 +16,6 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Qoliber\EventCalendar\Api\EventRepositoryInterface;
 use Qoliber\EventCalendar\Model\EventFactory;
 
@@ -53,7 +52,7 @@ class Save extends Action
         if ($data) {
             $id = $this->getRequest()->getParam('entity_id');
 
-            $model = $this->modelFactory->create();
+            $model = $this->modelFactory->create()->getDataModel();
 
             if ($id) {
                 $model = $this->repository->get((int) $id);
@@ -68,7 +67,6 @@ class Save extends Action
             }
 
             $model->addData($data); // @phpstan-ignore-line
-
             try {
                 $model = $this->repository->save($model);
                 $this->messageManager->addSuccessMessage(__('You saved the event.')->render());
