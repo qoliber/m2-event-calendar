@@ -12,6 +12,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <qoliber_event_calendar>
+            <general>
+                <membership_notice><![CDATA[Become a member to gain access to event submission.]]></membership_notice>
+            </general>
             <seo_list>
                 <meta_title>
                     <![CDATA[Magento Association - Event Calendar]]>

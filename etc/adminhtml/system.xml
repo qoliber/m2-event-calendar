@@ -16,6 +16,22 @@
             <label>Event Calendar Config</label>
             <tab>qoliber</tab>
             <resource>Qoliber_EventCalendar::config</resource>
+
+            <group id="general" translate="label" sortOrder="10" showInDefault="1">
+                <label>General Configuration</label>
+                <field id="enable_for_customer_groups" translate="label comment" type="multiselect"
+                       sortOrder="10" showInDefault="1">
+                    <label>Enable for Specific Customer Groups</label>
+                    <comment>The form will be enabled for all customer groups if none are selected.</comment>
+                    <source_model>Magento\Customer\Model\Config\Source\Group</source_model>
+                </field>
+                <field id="membership_notice" translate="label comment" type="text"
+                       sortOrder="10" showInDefault="1">
+                    <label>Membership Notice</label>
+                    <comment>This is the message shown when a user is not eligible to view the form.</comment>
+                </field>
+            </group>
+
             <group id="seo_list" translate="label" sortOrder="10" showInDefault="1">
                 <label>SEO - Event List Page</label>
                 <field id="meta_title" translate="label comment" type="text" sortOrder="10" showInDefault="1">
