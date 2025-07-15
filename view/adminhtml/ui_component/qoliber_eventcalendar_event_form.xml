@@ -237,5 +237,26 @@
             </settings>
         </field>
 
+        <field name="customer_id"
+               component="Qoliber_EventCalendar/js/form/element/formulary/auto-complete"
+               sortOrder="500" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">customer</item>
+                    <item name="url" xsi:type="url" path="events/event/customerList"/>
+                    <item name="noticeModal" xsi:type="string" translate="true"><![CDATA[ If you proceed,
+                     the customer will be unlinked from the current event and linked to the selected customer.]]>
+                    </item>
+                    <item name="noticeTitle" xsi:type="string" translate="true"><![CDATA[Change Customer?]]></item>
+                </item>
+            </argument>
+            <settings>
+                <notice translate="true">Search by Email</notice>
+                <dataType>text</dataType>
+                <label translate="true">Customer</label>
+                <visible>true</visible>
+                <required>true</required>
+            </settings>
+        </field>
     </fieldset>
 </form>

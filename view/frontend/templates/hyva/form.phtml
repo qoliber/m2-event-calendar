@@ -4,8 +4,10 @@ use Magento\Framework\Escaper;
 
 /** @var Escaper $escaper */
 /** @var \Qoliber\EventCalendar\Block\Event\Form $block */
-$formAction = $block->getUrl('events/new/submit', ['_secure' => true]);
+
+$formAction = $block->getUrl('events/myevents/submit', ['_secure' => true]);
 $recaptcha = $block->getData('viewModelRecaptcha');
+$event = $block->getCurrentEvent();
 ?>
 
 <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
@@ -13,20 +15,33 @@ $recaptcha = $block->getData('viewModelRecaptcha');
           class="max-w-2xl mx-auto p-6 rounded-lg shadow-md">
         <?= $block->getBlockHtml('formkey') ?>
 
+        <input type="hidden" id="entity_id" name="entity_id"
+               value="<?= $event ? $escaper->escapeHtml($block->getDataValue($event->getEntityId())) : null; ?>" />
+
         <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-            <?= $escaper->escapeHtml(__('Submit Your Event')); ?></h2>
+            <?php if (!$event): ?>
+                <?= $escaper->escapeHtml(__('Submit Your Event')); ?>
+            <?php else: ?>
+                <?= $escaper->escapeHtml(__('Update Your Event')); ?>
+            <?php endif; ?>
+        </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label for="event_name" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Event Name:')); ?></label>
                 <input type="text" id="event_name" name="event_name"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getEventName())) : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
             <div>
                 <label for="event_url" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Event URL:')); ?></label>
                 <input type="url" id="event_url" name="event_url"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getEventUrl()))
+                           : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
         </div>
@@ -35,7 +50,9 @@ $recaptcha = $block->getData('viewModelRecaptcha');
             <label for="address_details" class="block text-gray-700 font-medium">
                 <?= $escaper->escapeHtml(__('Address Details / Additional Details:')); ?></label>
             <textarea id="address_details" name="address_details" rows="4"
-                      class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"></textarea>
+                      class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"><?= $event
+                        ? $escaper->escapeHtml($block->getDataValue($event->getAddressDetails()))
+                        : null; ?></textarea>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -45,7 +62,9 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 <select id="country" name="country"
                         required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
                     <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
-                        <option value="<?= $escaper->escapeHtml($country['value']) ?>"><?=
+                        <option value="<?= $escaper->escapeHtml($country['value']) ?>"
+                            <?= ($event && $event->getCountry() && $country['value'] === $event->getCountry()
+                                ? $escaper->escapeHtml('selected') : '') ?>><?=
                             $escaper->escapeHtml(__($country['label'])); ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -54,6 +73,7 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 <label for="city" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Event City:')); ?></label>
                 <input type="text" id="city" name="city"
+                       value="<?= $event ? $escaper->escapeHtml($block->getDataValue($event->getCity())) : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
         </div>
@@ -63,12 +83,18 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 <label for="date_from" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Date From:')); ?></label>
                 <input type="date" id="date_from" name="date_from"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDateOnly($block->getDataValue($event->getDateFrom())))
+                           : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
             <div>
                 <label for="date_to" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Date To:')); ?></label>
                 <input type="date" id="date_to" name="date_to"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDateOnly($block->getDataValue($event->getDateTo())))
+                           : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
         </div>
@@ -78,12 +104,18 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 <label for="organizer_name" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Organizer Name:')); ?></label>
                 <input type="text" id="organizer_name" name="organizer_name"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getOrganizerName()))
+                           : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
             <div>
                 <label for="organizer_url" class="block text-gray-700 font-medium">
                     <?= $escaper->escapeHtml(__('Organizer URL:')); ?></label>
                 <input type="url" id="organizer_url" name="organizer_url"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getOrganizerUrl()))
+                           : null; ?>"
                        required class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
             </div>
         </div>
@@ -91,6 +123,18 @@ $recaptcha = $block->getData('viewModelRecaptcha');
         <div class="mt-4">
             <label for="event_logo" class="block text-gray-700 font-medium">
                 <?= $escaper->escapeHtml(__('Event Logo:')); ?></label>
+            <?php if ($event && $event->getLogo()): ?>
+                <div class="my-2.5 max-w-28">
+                    <img src="<?= $escaper->escapeUrl($block->getLogoUrl($event->getLogo()))?>"
+                         alt="<?= $escaper->escapeHtml(__('Event Logo'))?>">
+                </div>
+                <input type="hidden" id="existing_event_logo" name="existing_event_logo"
+                       value="<?= $escaper->escapeHtml($event->getLogo())?>">
+                <label class="block text-gray-700 font-medium flex items-center gap-2">
+                    <input type="checkbox" name="remove_logo" id="remove_logo" />
+                    <span><?= $escaper->escapeHtml(__('Remove Current Logo'))?></span>
+                </label>
+            <?php endif; ?>
             <input type="file" id="event_logo" name="event_logo" accept="image/*"
                    class="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300">
         </div>
@@ -99,7 +143,8 @@ $recaptcha = $block->getData('viewModelRecaptcha');
 
         <div class="mt-6 text-center">
             <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600">
-                <?= $escaper->escapeHtml(__('Submit Event')); ?>
+                <?= !$event ? $escaper->escapeHtml(__('Submit Event'))
+                    : $escaper->escapeHtml(__('Update Event')); ?>
             </button>
         </div>
     </form>
@@ -112,5 +157,5 @@ $recaptcha = $block->getData('viewModelRecaptcha');
         });
     </script>
 <?php else: ?>
-    <div class="message info empty"><span><?= $escaper->escapeHtml($block->getMembershipNotice()); ?></span></div>
+    <div class="message info empty"><span><?= $escaper->escapeHtml(__($block->getMembershipNotice())); ?></span></div>
 <?php endif; ?>

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Qoliber\EventCalendar\Observer;
 
+use Exception;
 use Laminas\Stdlib\Parameters;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Event\Observer;
@@ -22,16 +23,22 @@ use Magento\Framework\Message\ManagerInterface;
 use Qoliber\EventCalendar\Api\EventRepositoryInterface;
 use Qoliber\EventCalendar\Model\EventFactory;
 use Psr\Log\LoggerInterface;
+use Magento\Customer\Model\Session;
 
+/**
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class EventSubmitForm implements ObserverInterface
 {
     /**
-     * @param \Magento\Framework\File\UploaderFactory $uploaderFactory
-     * @param \Qoliber\EventCalendar\Model\EventFactory $eventFactory
-     * @param \Qoliber\EventCalendar\Api\EventRepositoryInterface $eventRepository
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param UploaderFactory $uploaderFactory
+     * @param EventFactory $eventFactory
+     * @param EventRepositoryInterface $eventRepository
+     * @param Filesystem $filesystem
+     * @param ManagerInterface $messageManager
+     * @param LoggerInterface $logger
+     * @param Session $customerSession
      */
     public function __construct(
         private readonly UploaderFactory $uploaderFactory,
@@ -39,7 +46,8 @@ class EventSubmitForm implements ObserverInterface
         private readonly EventRepositoryInterface $eventRepository,
         private readonly Filesystem $filesystem,
         private readonly ManagerInterface $messageManager,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly Session $customerSession
     ) {
     }
 
@@ -60,6 +68,8 @@ class EventSubmitForm implements ObserverInterface
             return;
         }
 
+        $params = $this->assignCustomer($params);
+
         try {
             $this->saveEvent($params, $request->getFiles());
         } catch (LocalizedException $e) {
@@ -71,6 +81,24 @@ class EventSubmitForm implements ObserverInterface
                 __('There was an error saving your event: %1', $e->getMessage())->render()
             );
         }
+    }
+
+    /**
+     * Assign a customer ID for frontend submission
+     *
+     * @param array $params
+     * @return mixed|null
+     * @throws Exception
+     */
+    private function assignCustomer(array $params): mixed
+    {
+        if ($this->customerSession->isLoggedIn()) {
+            $params['customer_id'] = (int) $this->customerSession->getCustomer()->getId() ?? 0;
+        } else {
+            throw new Exception('You must be logged-in to submit events.');
+        }
+
+        return $params;
     }
 
     /**
@@ -114,6 +142,10 @@ class EventSubmitForm implements ObserverInterface
     {
         $logoPath = $this->processLogo($files);
 
+        if (isset($params['existing_event_logo']) && empty($params['logo'])) {
+            $params['logo'] = $params['existing_event_logo'];
+        }
+
         // Handle logo
         if (!empty($params['remove_logo'])) {
             $params['logo'] = '';
@@ -132,7 +164,14 @@ class EventSubmitForm implements ObserverInterface
 
             $event->addData($params);
             $this->eventRepository->save($event);
-            $this->messageManager->addSuccessMessage(__('Your event has been saved.')->render());
+
+            if (!empty($params['entity_id'])) {
+                $message = 'Your event has been updated.';
+            } else {
+                $message = 'Your event has been saved.';
+            }
+
+            $this->messageManager->addSuccessMessage(__($message)->render());
         } catch (\Exception $e) {
             throw new LocalizedException(__('Could not save the event: %1', $e->getMessage()));
         }

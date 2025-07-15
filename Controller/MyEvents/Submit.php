@@ -9,15 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Qoliber\EventCalendar\Controller\New;
+namespace Qoliber\EventCalendar\Controller\MyEvents;
 
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Event\Manager;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
 
 class Submit implements HttpPostActionInterface
@@ -48,7 +47,7 @@ class Submit implements HttpPostActionInterface
         $postData = $this->request->getParams();
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         // @phpstan-ignore-next-line
-        $resultRedirect->setPath('events/new', ['_secure' => true]);
+        $resultRedirect->setPath('events/myevents', ['_secure' => true]);
 
         if ($postData) {
             try {

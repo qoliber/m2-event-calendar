@@ -13,6 +13,8 @@
     <table name="qoliber_events" engine="innodb" comment="EVENTs">
         <column name="entity_id" xsi:type="int" comment="entity_id" nullable="false" identity="true" unsigned="true"
                 padding="10"/>
+        <column name="customer_id" xsi:type="int" padding="10" unsigned="true" nullable="false"
+                comment="Customer ID" default="0" />
         <column name="event_name" xsi:type="varchar" comment="event_name" nullable="true"/>
         <column name="uuid" xsi:type="varchar" comment="uuid" nullable="true"/>
         <column name="event_url" xsi:type="varchar" comment="event_url" nullable="true"/>
@@ -28,6 +30,11 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>
         </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="QOLIBER_EVENTCALENDAR_QOLIBER_EVENTS_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+                    table="qoliber_events" column="customer_id"
+                    referenceTable="customer_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE" />
         <index referenceId="QOLIBER_EVENTS_ENTITY_ID" indexType="fulltext">
             <column name="country"/>
             <column name="address_details"/>

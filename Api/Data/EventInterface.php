@@ -19,6 +19,9 @@ interface EventInterface extends ExtensibleDataInterface
     public const ENTITY_ID = 'entity_id';
 
     /** @var string  */
+    public const CUSTOMER_ID = 'customer_id';
+
+    /** @var string  */
     public const EVENT_NAME = 'event_name';
 
     /** @var string */
@@ -71,6 +74,21 @@ interface EventInterface extends ExtensibleDataInterface
      * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
     public function setEntityId($entityId): EventInterface;
+
+    /**
+     * Get Customer ID
+     *
+     * @return int|null
+     */
+    public function getCustomerId(): ?int;
+
+    /**
+     * Set Customer ID
+     *
+     * @param int|null $customerId
+     * @return EventInterface
+     */
+    public function setCustomerId(?int $customerId): EventInterface;
 
     /**
      * Get Event URL

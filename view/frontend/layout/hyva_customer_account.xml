@@ -5,10 +5,10 @@
     <body>
         <referenceBlock name="customer_account_navigation">
             <block class="Magento\Customer\Block\Account\SortLinkInterface"
-                   name="events-new-link">
+                   name="my-events-list-link">
                 <arguments>
-                    <argument name="label" xsi:type="string">New Event</argument>
-                    <argument name="path" xsi:type="string">events/new</argument>
+                    <argument name="label" xsi:type="string">My Events</argument>
+                    <argument name="path" xsi:type="string">events/myevents</argument>
                     <argument name="sortOrder" xsi:type="number">10</argument>
                 </arguments>
             </block>

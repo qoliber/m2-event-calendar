@@ -11,16 +11,16 @@ declare(strict_types=1);
 
 namespace Qoliber\EventCalendar\Block\Event;
 
-use Exception;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Directory\Model\ResourceModel\Country\CollectionFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\StoreManagerInterface;
+use Qoliber\EventCalendar\Api\Data\EventInterface;
 use Qoliber\EventCalendar\Helper\SystemConfigurations;
-use Psr\Log\LoggerInterface;
-use Magento\Framework\App\Http\Context as HttpContext;
-use Magento\Customer\Model\Context as CustomerContext;
+use Qoliber\EventCalendar\Model\CurrentEvent;
+use Qoliber\EventCalendar\Model\Data\Event;
 
 class Form extends Template
 {
@@ -30,8 +30,7 @@ class Form extends Template
      * @param DirectoryHelper $directoryHelper
      * @param StoreManagerInterface $storeManager
      * @param SystemConfigurations $systemConfigurations
-     * @param LoggerInterface $logger
-     * @param HttpContext $httpContext
+     * @param CurrentEvent $currentEvent
      */
     public function __construct(
         protected Context $context,
@@ -39,8 +38,7 @@ class Form extends Template
         protected DirectoryHelper $directoryHelper,
         protected StoreManagerInterface $storeManager,
         protected readonly SystemConfigurations $systemConfigurations,
-        protected LoggerInterface $logger,
-        protected readonly HttpContext $httpContext,
+        private readonly CurrentEvent $currentEvent
     ) {
         parent::__construct($context);
     }
@@ -62,26 +60,51 @@ class Form extends Template
      */
     public function checkIfCurrentCustomerIsEligible(): ?bool
     {
-        if (!$this->httpContext->getValue(CustomerContext::CONTEXT_AUTH)) {
-            return false;
-        }
+        return $this->systemConfigurations->checkIfCurrentCustomerIsEligible();
+    }
 
-        try {
-            $groupConfig = $this->systemConfigurations->getEnableForCustomerGroups();
+    /**
+     * Get current event if available
+     *
+     * @return EventInterface|Event|null
+     */
+    public function getCurrentEvent(): EventInterface|Event|null
+    {
+        return $this->currentEvent->getCurrentEvent();
+    }
 
-            if ($groupConfig === null) {
-                return true;
-            }
+    /**
+     * Check if method has value and set default if none
+     *
+     * @param mixed|null $data
+     * @return mixed
+     */
+    public function getDataValue(mixed $data = null): mixed
+    {
+        return $data ?: '';
+    }
 
-            $allowedGroupIds = trim($this->systemConfigurations->getEnableForCustomerGroups(), ',');
-            $allowedGroupIds = explode(',', $allowedGroupIds);
-            $currentGroupId = $this->httpContext->getValue(CustomerContext::CONTEXT_GROUP);
+    /**
+     * Remove time in date
+     *
+     * @param String|null $date
+     * @return string
+     */
+    public function getDateOnly(String|null $date): string
+    {
+        return $date ? explode(' ', $date)[0] : '';
+    }
 
-            return in_array($currentGroupId, $allowedGroupIds);
-        } catch (Exception $e) {
-            $this->logger->error(__METHOD__ . ': ' . $e->getMessage());
-            return false;
-        }
+    /**
+     * Get Logo URL
+     *
+     * @param string|null $logoUrl
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
+    public function getLogoUrl(?string $logoUrl): ?string
+    {
+        return $this->systemConfigurations->getEventLogoUrl($logoUrl);
     }
 
     /**

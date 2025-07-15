@@ -2,14 +2,37 @@
 
 namespace Qoliber\EventCalendar\Helper;
 
+use Exception;
+use Magento\Customer\Model\Context as CustomerContext;
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Http\Context as HttpContext;
+use Psr\Log\LoggerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class SystemConfigurations extends AbstractHelper
 {
     public const XML_PATH_EVENTS_GENERAL = 'qoliber_event_calendar/general/';
     public const XML_PATH_EVENTS_GENERAL_ENABLE_FOR_CUSTOMER_GROUPS = 'enable_for_customer_groups';
     public const XML_PATH_EVENTS_GENERAL_MEMBERSHIP_NOTICE = 'membership_notice';
+
+    /**
+     * @param HttpContext $httpContext
+     * @param LoggerInterface $logger
+     * @param StoreManagerInterface $storeManager
+     * @param Context $context
+     */
+    public function __construct(
+        private readonly HttpContext $httpContext,
+        private readonly LoggerInterface $logger,
+        private readonly StoreManagerInterface $storeManager,
+        Context $context
+    ) {
+        parent::__construct($context);
+    }
 
     /**
      * Get config value by field
@@ -45,5 +68,48 @@ class SystemConfigurations extends AbstractHelper
     public function getMembershipNotice(): mixed
     {
         return $this->getConfigValue(self::XML_PATH_EVENTS_GENERAL_MEMBERSHIP_NOTICE);
+    }
+
+    /**
+     * Check if current session is logged in and check customer group if eligible
+     *
+     * @return bool|null
+     */
+    public function checkIfCurrentCustomerIsEligible(): ?bool
+    {
+        if (!$this->httpContext->getValue(CustomerContext::CONTEXT_AUTH)) {
+            return false;
+        }
+
+        try {
+            $groupConfig = $this->getEnableForCustomerGroups();
+
+            if ($groupConfig === null) {
+                return true;
+            }
+
+            $allowedGroupIds = trim($this->getEnableForCustomerGroups(), ',');
+            $allowedGroupIds = explode(',', $allowedGroupIds);
+            $currentGroupId = $this->httpContext->getValue(CustomerContext::CONTEXT_GROUP);
+
+            return in_array($currentGroupId, $allowedGroupIds);
+        } catch (Exception $e) {
+            $this->logger->error(__METHOD__ . ': ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get Logo URL
+     *
+     * @param string|null $logo
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
+    public function getEventLogoUrl(?string $logo): ?string
+    {
+        $mediaBaseUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
+
+        return $logo ? sprintf('%s/%s', $mediaBaseUrl, $logo) : null;
     }
 }

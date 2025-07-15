@@ -1,0 +1,41 @@
+<!--
+/**
+ * Copyright © Above The Fray Design, Inc. All rights reserved.
+ * See ATF_COPYING.txt for license details.
+ */
+-->
+<div class="admin__action-multiselect-wrap action-select-wrap auto-complete-wrap"
+     data-bind="
+     mageInit: {'autoComplete':{
+        'url': url,
+        'currentVal' : selectedCustomer,
+        'modalTitle': noticeTitle,
+        'modalText' : noticeModal}},
+        hasFocus: focused,
+        css: {
+            _disabled: disabled
+        }
+     ">
+    <input type="hidden" data-role="hidden-input" data-bind="
+            hasFocus: focused,
+            value: value,
+            valueUpdate: valueUpdate,
+            event: {change: userChanges},
+            attr: {
+                name: inputName,
+                placeholder: placeholder,
+                'aria-describedby': noticeId,
+                id: uid
+            }
+        ">
+    <div class="action-select admin__action-multiselect auto-complete-label"
+         data-action="open-search"
+         data-bind="i18n: selectedCustomer || 'Select...'">
+    </div>
+    <div class="action-menu" data-role="search-block">
+        <div class="admin__action-multiselect-search-wrap">
+            <input class="admin__control-text" data-action="input-text" type="text"></input>
+            <label class="admin__action-multiselect-search-label"></label>
+        </div>
+    </div>
+</div>

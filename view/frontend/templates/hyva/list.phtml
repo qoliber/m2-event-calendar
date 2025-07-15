@@ -1,0 +1,101 @@
+<?php declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var \Qoliber\EventCalendar\Block\Account\MyEventsList $block  */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var HeroiconsOutline $heroicons */
+$heroIcons = $viewModels->require(HeroiconsOutline::class);
+
+$_events = $block->getCustomerEvents(); ?>
+
+<div class="button-wrapper mb-10">
+    <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+        <a href="<?= $escaper->escapeUrl($block->getUrl('events/new'))?>"
+           class="btn btn-primary inline-flex"
+           title="<?= $escaper->escapeHtml(__('Create Event'))?>">
+            <?= $escaper->escapeHtml(__('Create Event'))?>
+        </a>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?= $escaper->escapeHtml(__($block->getMembershipNotice())); ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php if ($_events && count($_events)): ?>
+    <div class="overflow-x-auto card mb-4">
+        <table id="my-events-table"
+            class="w-full sm:table-fixed lg:table-auto">
+            <thead>
+                <tr>
+                    <th scope="col" class="p-2 text-start"><?= $escaper->escapeHtml(__('Event Name')) ?></th>
+                    <th scope="col" class="p-2 text-start hidden lg:table-cell">
+                        <?= $escaper->escapeHtml(__('Date')) ?>
+                    </th>
+                    <th scope="col" class="p-2 text-start">
+                        <?= $escaper->escapeHtml(__('Organizer Name')) ?>
+                    </th>
+                    <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+                        <th scope="col" class="p-2 text-end"><?= $escaper->escapeHtml(__('Action')) ?></th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+                 <?php foreach ($_events as $_event): ?>
+                        <?php /** @var \Qoliber\EventCalendar\Model\Data\Event $_event */?>
+                     <tr class="align-top even:bg-container-darker">
+                         <td data-th="<?= $escaper->escapeHtml(__('Event Name')) ?>" class="p-2 text-start">
+                             <?= $escaper->escapeHtml($_event->getEventName()) ?>
+                             <p class="lg:hidden text-sm">
+                                 <?= $escaper->escapeHtml(
+                                     $block->changeDataToReadableFormat(
+                                         $_event->getDateFrom(),
+                                         $_event->getDateTo()
+                                     )
+                                 ) ?>
+                             </p>
+                         </td>
+                         <td data-th="<?= $escaper->escapeHtml(__('Date')) ?>"
+                             class="p-2 text-start hidden lg:table-cell">
+                             <?= $escaper->escapeHtml(
+                                 $block->changeDataToReadableFormat(
+                                     $_event->getDateFrom(),
+                                     $_event->getDateTo()
+                                 )
+                             ) ?>
+                         </td>
+                         <td data-th="<?= $escaper->escapeHtml(__('Organizer Name')) ?>"
+                             class="p-2 text-start">
+                             <?= $escaper->escapeHtml($_event->getOrganizerName()) ?>
+                         </td>
+                         <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+                             <td data-th="<?= $escaper->escapeHtml(__('Actions')) ?>" class="p-2 text-start">
+                                 <div class="flex items-center justify-evenly">
+                                     <a href="<?= $escaper->escapeUrl($block->getViewUrl($_event->getId())) ?>"
+                                        title="<?= $escaper->escapeHtml(__('Edit/View Event'))?>"
+                                        class="inline-block text-sm underline text-secondary-darker">
+                                         <?= $heroIcons->pencilHtml(
+                                             '',
+                                             22,
+                                             22,
+                                             ['aria-hidden' => 'true']
+                                         ) ?>
+                                     </a>
+                                 </div>
+                             </td>
+                         <?php endif; ?>
+                     </tr>
+                 <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?= $escaper->escapeHtml(__('No events found.')); ?></span></div>
+<?php endif; ?>
