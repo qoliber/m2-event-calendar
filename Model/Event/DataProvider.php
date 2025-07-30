@@ -21,9 +21,6 @@ use Qoliber\EventCalendar\Controller\Adminhtml\Event\Upload;
 use Qoliber\EventCalendar\Model\FileInfo;
 use Qoliber\EventCalendar\Model\ResourceModel\Event\CollectionFactory;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
- */
 class DataProvider extends AbstractDataProvider
 {
     /**
