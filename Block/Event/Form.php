@@ -25,12 +25,12 @@ use Qoliber\EventCalendar\Model\Data\Event;
 class Form extends Template
 {
     /**
-     * @param Context $context
-     * @param CollectionFactory $countryCollectionFactory
-     * @param DirectoryHelper $directoryHelper
-     * @param StoreManagerInterface $storeManager
-     * @param SystemConfigurations $systemConfigurations
-     * @param CurrentEvent $currentEvent
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Directory\Model\ResourceModel\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Directory\Helper\Data $directoryHelper
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Qoliber\EventCalendar\Helper\SystemConfigurations $systemConfigurations
+     * @param \Qoliber\EventCalendar\Model\CurrentEvent $currentEvent
      */
     public function __construct(
         protected Context $context,
@@ -66,7 +66,7 @@ class Form extends Template
     /**
      * Get current event if available
      *
-     * @return EventInterface|Event|null
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface|\Qoliber\EventCalendar\Model\Data\Event|null
      */
     public function getCurrentEvent(): EventInterface|Event|null
     {
@@ -100,7 +100,7 @@ class Form extends Template
      *
      * @param string|null $logoUrl
      * @return string|null
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getLogoUrl(?string $logoUrl): ?string
     {

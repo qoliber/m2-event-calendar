@@ -59,11 +59,17 @@ class Save extends Action
             }
 
             if (isset($data['logo']) && is_array($data['logo'])) {
-                if (isset($data['logo'][0]['name'])) {
-                    $data['logo'] = sprintf('events/%s', $data['logo'][0]['name']);
+                if (isset($data['logo'][0]['url'])) {
+                    $logo = explode('/', $data['logo'][0]['url']);
+                    $logo = end($logo);
+                    $data['logo'] = sprintf(
+                        'events/%s', $logo
+                    );
                 } else {
                     $data['logo'] = '';
                 }
+            } else {
+                $data['logo'] = '';
             }
 
             $model->addData($data); // @phpstan-ignore-line

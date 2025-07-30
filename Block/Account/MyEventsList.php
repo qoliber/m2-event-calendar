@@ -14,21 +14,20 @@ use Qoliber\EventCalendar\Model\ResourceModel\Event\Collection as EventCollectio
 use Magento\Customer\Model\Session;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Qoliber\EventCalendar\Helper\SystemConfigurations;
-use IntlDateFormatter;
 
 class MyEventsList extends Template
 {
     /**
-     * @var null|EventCollection
+     * @var null|\Qoliber\EventCalendar\Model\ResourceModel\Event\Collection
      */
     protected ?EventCollection $events = null;
 
     /**
-     * @param EventCollectionFactory $eventCollectionFactory
-     * @param Session $customerSession
-     * @param TimezoneInterface $timezone
-     * @param SystemConfigurations $systemConfigurations
-     * @param Context $context
+     * @param \Qoliber\EventCalendar\Model\ResourceModel\Event\CollectionFactory $eventCollectionFactory
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone
+     * @param \Qoliber\EventCalendar\Helper\SystemConfigurations $systemConfigurations
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -45,7 +44,7 @@ class MyEventsList extends Template
     /**
      * Get Customer Events
      *
-     * @return bool|EventCollection|null
+     * @return bool|\Qoliber\EventCalendar\Model\ResourceModel\Event\Collection|null
      */
     public function getCustomerEvents(): bool|EventCollection|null
     {
@@ -69,7 +68,7 @@ class MyEventsList extends Template
      *
      * Declared page block in XML as creating here bloch here creates issue in hyva
      *
-     * @return $this|MyEventsList
+     * @return $this|\Qoliber\EventCalendar\Block\Account\MyEventsList
      * @throws LocalizedException
      */
     protected function _prepareLayout(): MyEventsList|static
@@ -113,7 +112,7 @@ class MyEventsList extends Template
      * @param string|null $dataFrom
      * @param string|null $dataTo
      * @return string
-     * @throws DateMalformedStringException
+     * @throws \DateMalformedStringException
      */
     public function changeDataToReadableFormat(?string $dataFrom, ?string $dataTo): string
     {

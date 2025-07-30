@@ -35,7 +35,7 @@ class Index implements HttpGetActionInterface, AccountInterface
     /**
      * Execute view action
      *
-     * @return ResultInterface|null
+     * @return \Magento\Framework\Controller\ResultInterface|null
      */
     public function execute(): ?ResultInterface
     {

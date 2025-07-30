@@ -32,13 +32,13 @@ use Magento\Customer\Model\Session;
 class EventSubmitForm implements ObserverInterface
 {
     /**
-     * @param UploaderFactory $uploaderFactory
-     * @param EventFactory $eventFactory
-     * @param EventRepositoryInterface $eventRepository
-     * @param Filesystem $filesystem
-     * @param ManagerInterface $messageManager
-     * @param LoggerInterface $logger
-     * @param Session $customerSession
+     * @param \Magento\Framework\File\UploaderFactory $uploaderFactory
+     * @param \Qoliber\EventCalendar\Model\EventFactory $eventFactory
+     * @param \Qoliber\EventCalendar\Api\EventRepositoryInterface $eventRepository
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         private readonly UploaderFactory $uploaderFactory,
@@ -88,7 +88,7 @@ class EventSubmitForm implements ObserverInterface
      *
      * @param array $params
      * @return mixed|null
-     * @throws Exception
+     * @throws \Exception
      */
     private function assignCustomer(array $params): mixed
     {

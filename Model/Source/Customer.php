@@ -9,7 +9,7 @@ use Magento\Framework\Exception\LocalizedException;
 class Customer implements OptionSourceInterface
 {
     /**
-     * @param CollectionFactory $customerCollectionFactory
+     * @param \Magento\Customer\Model\ResourceModel\Customer\CollectionFactory $customerCollectionFactory
      */
     public function __construct(
         private readonly CollectionFactory $customerCollectionFactory
@@ -20,7 +20,7 @@ class Customer implements OptionSourceInterface
      * Get an option array
      *
      * @return array
-     * @throws LocalizedException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function toOptionArray(): array
     {

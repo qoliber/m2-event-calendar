@@ -5,8 +5,8 @@ use Hyva\Theme\ViewModel\HeroiconsOutline;
 
 /** @var \Qoliber\EventCalendar\Block\Account\MyEventsList $block  */
 /** @var \Magento\Framework\Escaper $escaper */
-/** @var ViewModelRegistry $viewModels */
-/** @var HeroiconsOutline $heroicons */
+/** @var \Hyva\Theme\Model\ViewModelRegistry $viewModels */
+/** @var \Hyva\Theme\ViewModel\HeroiconsOutline $heroicons */
 $heroIcons = $viewModels->require(HeroiconsOutline::class);
 
 $_events = $block->getCustomerEvents(); ?>

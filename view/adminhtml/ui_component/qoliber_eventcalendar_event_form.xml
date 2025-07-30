@@ -241,7 +241,7 @@
                formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">casestudy</item>
+                    <item name="source" xsi:type="string">Event</item>
                     <item name="filterOptions" xsi:type="boolean">true</item>
                     <item name="multiple" xsi:type="boolean">false</item>
                     <item name="showCheckbox" xsi:type="boolean">false</item>

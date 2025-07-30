@@ -11,8 +11,8 @@ use Magento\Framework\View\Result\PageFactory;
 class Index implements HttpGetActionInterface, AccountInterface
 {
     /**
-     * @param PageFactory $resultPageFactory
-     * @param Config $pageConfig
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\View\Page\Config $pageConfig
      */
     public function __construct(
         private readonly PageFactory $resultPageFactory,
@@ -23,7 +23,7 @@ class Index implements HttpGetActionInterface, AccountInterface
     /**
      * Execute My Events List
      *
-     * @return ResultInterface|null
+     * @return \Magento\Framework\Controller\ResultInterface|null
      */
     public function execute(): ?ResultInterface
     {

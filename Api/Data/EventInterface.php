@@ -86,7 +86,7 @@ interface EventInterface extends ExtensibleDataInterface
      * Set Customer ID
      *
      * @param int|null $customerId
-     * @return EventInterface
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
      */
     public function setCustomerId(?int $customerId): EventInterface;
 

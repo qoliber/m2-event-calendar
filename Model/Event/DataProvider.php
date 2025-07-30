@@ -30,12 +30,12 @@ class DataProvider extends AbstractDataProvider
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
-     * @param CollectionFactory $collectionFactory
-     * @param FileInfo $fileInfo
-     * @param Filesystem $filesystem
-     * @param File $fileDriver
-     * @param DirectoryList $directoryList
-     * @param StoreManagerInterface $storeManager
+     * @param \Qoliber\EventCalendar\Model\ResourceModel\Event\CollectionFactory $collectionFactory
+     * @param \Qoliber\EventCalendar\Model\FileInfo $fileInfo
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
+     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed[] $meta
      * @param mixed[] $data
      */

@@ -20,10 +20,10 @@ class SystemConfigurations extends AbstractHelper
     public const XML_PATH_EVENTS_GENERAL_MEMBERSHIP_NOTICE = 'membership_notice';
 
     /**
-     * @param HttpContext $httpContext
-     * @param LoggerInterface $logger
-     * @param StoreManagerInterface $storeManager
-     * @param Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Helper\Context $context
      */
     public function __construct(
         private readonly HttpContext $httpContext,
@@ -104,7 +104,7 @@ class SystemConfigurations extends AbstractHelper
      *
      * @param string|null $logo
      * @return string|null
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getEventLogoUrl(?string $logo): ?string
     {

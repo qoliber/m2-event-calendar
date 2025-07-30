@@ -14,14 +14,14 @@ class CurrentEvent
     public const PARAM_EVENT = 'event_id';
 
     /**
-     * @var Event|null
+     * @var \Qoliber\EventCalendar\Model\Data\Event|null
      */
     public ?Event $event = null;
 
     /**
-     * @param RequestInterface $request
-     * @param EventRepository $eventRepository
-     * @param LoggerInterface $logger
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Qoliber\EventCalendar\Model\EventRepository $eventRepository
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         private readonly RequestInterface $request,
@@ -33,7 +33,7 @@ class CurrentEvent
     /**
      * Get current event
      *
-     * @return EventInterface|Event|null
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface|\Qoliber\EventCalendar\Model\Data\Event|null
      */
     public function getCurrentEvent(): EventInterface|Event|null
     {

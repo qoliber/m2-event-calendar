@@ -15,12 +15,12 @@ use Qoliber\EventCalendar\Helper\SystemConfigurations;
 class Edit implements HttpGetActionInterface, AccountInterface
 {
     /**
-     * @param PageFactory $resultPageFactory
-     * @param Config $pageConfig
-     * @param CurrentEvent $currentEvent
-     * @param RedirectFactory $resultRedirectFactory
-     * @param ManagerInterface $messageManager
-     * @param SystemConfigurations $systemConfigurations
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param \Qoliber\EventCalendar\Model\CurrentEvent $currentEvent
+     * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Qoliber\EventCalendar\Helper\SystemConfigurations $systemConfigurations
      */
     public function __construct(
         private readonly PageFactory $resultPageFactory,
@@ -35,7 +35,7 @@ class Edit implements HttpGetActionInterface, AccountInterface
     /**
      * Execute My Events List
      *
-     * @return ResultInterface|null
+     * @return \Magento\Framework\Controller\ResultInterface|null
      */
     public function execute(): ?ResultInterface
     {
