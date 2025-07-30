@@ -20,8 +20,6 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Qoliber\EventCalendar\Controller\Adminhtml\Event\Upload;
 use Qoliber\EventCalendar\Model\FileInfo;
 use Qoliber\EventCalendar\Model\ResourceModel\Event\CollectionFactory;
-use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory as CustomerCollectionFactory;
-use Magento\Customer\Model\ResourceModel\Customer\Collection as CustomerCollection;
 
 /**
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -38,7 +36,6 @@ class DataProvider extends AbstractDataProvider
      * @param File $fileDriver
      * @param DirectoryList $directoryList
      * @param StoreManagerInterface $storeManager
-     * @param CustomerCollectionFactory $customerCollectionFactory
      * @param mixed[] $meta
      * @param mixed[] $data
      */
@@ -52,7 +49,6 @@ class DataProvider extends AbstractDataProvider
         protected File $fileDriver,
         protected DirectoryList $directoryList,
         protected StoreManagerInterface $storeManager,
-        private CustomerCollectionFactory $customerCollectionFactory,
         array $meta = [],
         array $data = []
     ) {
@@ -94,34 +90,9 @@ class DataProvider extends AbstractDataProvider
                         'type' => $mimeType,
                     ]
                 ];
-
-                if (isset($item['customer_id'])) {
-                    $items[$item['entity_id']]['email'] = $this->getCustomerEmail((int) $item['customer_id']);
-                }
             }
         }
 
         return $items;
-    }
-
-    /**
-     * Get customer email by ID
-     *
-     * Use collection as one column is only needed
-     *
-     * @param int $customerId
-     * @return null|string
-     */
-    private function getCustomerEmail(int $customerId): ?string
-    {
-        $result = null;
-        $collection = $this->customerCollectionFactory->create();
-        $collection->addFieldToSelect('email')->addFieldToFilter('entity_id', ['eq' => $customerId]);
-
-        if ($collection->count()) {
-            $result = $collection->getFirstItem()->getEmail();
-        }
-
-        return $result;
     }
 }

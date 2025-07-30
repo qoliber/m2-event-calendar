@@ -237,26 +237,35 @@
             </settings>
         </field>
 
-        <field name="customer_id"
-               component="Qoliber_EventCalendar/js/form/element/formulary/auto-complete"
-               sortOrder="500" formElement="input">
+        <field name="customer_id" component="Magento_Ui/js/form/element/ui-select" sortOrder="500"
+               formElement="select">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">customer</item>
-                    <item name="url" xsi:type="url" path="events/event/customerList"/>
-                    <item name="noticeModal" xsi:type="string" translate="true"><![CDATA[ If you proceed,
-                     the customer will be unlinked from the current event and linked to the selected customer.]]>
-                    </item>
-                    <item name="noticeTitle" xsi:type="string" translate="true"><![CDATA[Change Customer?]]></item>
+                    <item name="source" xsi:type="string">casestudy</item>
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="isRemoveSelectedIcon" xsi:type="boolean">false</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
                 </item>
             </argument>
             <settings>
-                <notice translate="true">Search by Email</notice>
-                <dataType>text</dataType>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
                 <label translate="true">Customer</label>
-                <visible>true</visible>
-                <required>true</required>
+                <dataScope>customer_id</dataScope>
+                <componentType>field</componentType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
             </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Qoliber\EventCalendar\Model\Source\Customer"/>
+                    </settings>
+                </select>
+            </formElements>
         </field>
     </fieldset>
 </form>
