@@ -39,6 +39,29 @@ class Event extends AbstractModel implements EventInterface
     }
 
     /**
+     * Get Customer ID
+     *
+     * @return int|null
+     */
+    public function getCustomerId(): ?int
+    {
+        return (int) $this->getData(self::CUSTOMER_ID);
+    }
+
+    /**
+     * Set Customer ID
+     *
+     * @param int|null $customerId
+     * @return \Qoliber\EventCalendar\Api\Data\EventInterface
+     */
+    public function setCustomerId(?int $customerId): EventInterface
+    {
+        $this->setData(self::CUSTOMER_ID, $customerId);
+
+        return $this;
+    }
+
+    /**
      * Get Event URL
      *
      * @return string|null

@@ -1,0 +1,74 @@
+<?php declare(strict_types=1);
+
+/** @var \Qoliber\EventCalendar\Block\Account\MyEventsList $block  */
+/** @var \Magento\Framework\Escaper $escaper */
+
+$_events = $block->getCustomerEvents(); ?>
+
+
+<div class="button-wrapper">
+    <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+        <a href="<?= $escaper->escapeUrl($block->getUrl('events/new'))?>" class="action primary"
+           title="<?= $escaper->escapeHtml(__('Create Event'))?>">
+            <?= $escaper->escapeHtml(__('Create Event'))?>
+        </a>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?= $escaper->escapeHtml(__($block->getMembershipNotice())); ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php if ($_events && count($_events)): ?>
+    <div class="table-wrapper my-events-list">
+        <table class="data table my-events-items" id="my-events-table">
+            <caption class="table-caption"><?= $escaper->escapeHtml(__('Orders')) ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"><?= $escaper->escapeHtml(__('Event Name')) ?></th>
+                    <th scope="col" class="col total"><?= $escaper->escapeHtml(__('Date')) ?></th>
+                    <th scope="col" class="col status"><?= $escaper->escapeHtml(__('Organizer Name')) ?></th>
+                    <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+                        <th scope="col" class="col actions"><?= $escaper->escapeHtml(__('Action')) ?></th>
+                    <?php endif; ?>
+                </tr>
+            </thead>
+            <tbody>
+                 <?php foreach ($_events as $_event): ?>
+                        <?php /** @var \Qoliber\EventCalendar\Model\Data\Event $_event */?>
+                     <tr>
+                         <td data-th="<?= $escaper->escapeHtml(__('Event Name')) ?>" class="col id">
+                             <?= $escaper->escapeHtml($_event->getEventName()) ?>
+                         </td>
+                         <td data-th="<?= $escaper->escapeHtml(__('Date')) ?>" class="col data">
+                             <?= $escaper->escapeHtml(
+                                 $block->changeDataToReadableFormat(
+                                     $_event->getDateFrom(),
+                                     $_event->getDateTo()
+                                 )
+                             ) ?>
+                         </td>
+                         <td data-th="<?= $escaper->escapeHtml(__('Organizer Name')) ?>" class="col organizer">
+                             <?= $escaper->escapeHtml($_event->getOrganizerName()) ?>
+                         </td>
+                         <?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+                             <td data-th="<?= $escaper->escapeHtml(__('Actions')) ?>" class="col actions">
+                                 <a href="<?= $escaper->escapeUrl($block->getViewUrl($_event->getId())) ?>"
+                                    title="<?= $escaper->escapeHtml(__('Edit/View Event'))?>"
+                                    class="action view">
+                                     <span><?= $escaper->escapeHtml(__('View/Edit')) ?></span>
+                                 </a>
+                             </td>
+                         <?php endif; ?>
+                     </tr>
+                 <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?= $escaper->escapeHtml(__('No events found.')); ?></span></div>
+<?php endif; ?>

@@ -5,89 +5,145 @@ use Magento\Framework\Escaper;
 /** @var Escaper $escaper */
 /** @var \Qoliber\EventCalendar\Block\Event\Form $block */
 
-$formAction = $block->getUrl('events/new/submit', ['_secure' => true]);
+$formAction = $block->getUrl('events/myevents/submit', ['_secure' => true]);
 $recaptcha = $block->getData('viewModelRecaptcha');
+$event = $block->getCurrentEvent();
 ?>
 
-<form action="<?= $escaper->escapeHtml($formAction) ?>" method="POST" enctype="multipart/form-data" class="event-form">
-    <?= $block->getBlockHtml('formkey') ?>
+<?php if ($block->checkIfCurrentCustomerIsEligible()): ?>
+    <form action="<?= $escaper->escapeHtml($formAction) ?>" method="POST"
+          enctype="multipart/form-data" class="event-form">
+        <?= $block->getBlockHtml('formkey') ?>
 
-    <!-- Flexbox container for Event Name and Country -->
-    <div class="form-group date-container">
-        <div class="date-field">
-            <label for="event_name"><?= $escaper->escapeHtml(__('Event Name:')); ?></label>
-            <input type="text" id="event_name" name="event_name" required />
+        <input type="hidden" id="entity_id" name="entity_id"
+               value="<?= $event ? $escaper->escapeHtml($block->getDataValue($event->getEntityId())) : null; ?>" />
+
+        <!-- Flexbox container for Event Name and Country -->
+        <div class="form-group date-container">
+            <div class="date-field">
+                <label for="event_name"><?= $escaper->escapeHtml(__('Event Name:')); ?></label>
+                <input type="text" id="event_name" name="event_name"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getEventName())) : null; ?>"
+                       required />
+            </div>
+
+            <div class="date-field">
+                <label for="event_url"><?= $escaper->escapeHtml(__('Event URL:')); ?></label>
+                <input type="url" id="event_url" name="event_url"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getEventUrl()))
+                           : null; ?>"
+                       required />
+            </div>
         </div>
 
-        <div class="date-field">
-            <label for="event_url"><?= $escaper->escapeHtml(__('Event URL:')); ?></label>
-            <input type="url" id="event_url" name="event_url" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="address_details">
-            <?= $escaper->escapeHtml(__('Address Details / Additional Details:')); ?></label>
-        <textarea id="address_details" name="address_details" rows="5"></textarea>
-    </div>
-
-    <div class="form-group date-container">
-        <div class="date-field">
-            <label for="country"><?= $escaper->escapeHtml(__('Event Country:')); ?></label>
-            <select id="country" name="country" required>
-                <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
-                    <option value="<?= $escaper->escapeHtml($country['value']) ?>">
-                        <?= $escaper->escapeHtml($country['label']) ?></option>
-                <?php endforeach; ?>
-            </select>
+        <div class="form-group">
+            <label for="address_details">
+                <?= $escaper->escapeHtml(__('Address Details / Additional Details:')); ?></label>
+            <textarea id="address_details" name="address_details"
+                      rows="5"><?= $event
+                        ? $escaper->escapeHtml($block->getDataValue($event->getAddressDetails())) : null; ?></textarea>
         </div>
 
-        <div class="date-field">
-            <label for="city"><?= $escaper->escapeHtml(__('Event City:')); ?></label>
-            <input type="text" id="city" name="city" required />
-        </div>
-    </div>
+        <div class="form-group date-container">
+            <div class="date-field">
+                <label for="country"><?= $escaper->escapeHtml(__('Event Country:')); ?></label>
+                <select id="country" name="country" required>
+                    <?php foreach ($block->getCountryOptions() ?? [] as $country): ?>
+                        <option value="<?= $escaper->escapeHtml($country['value']) ?>"
+                            <?= ($event && $event->getCountry() && $country['value'] === $event->getCountry()
+                                ? $escaper->escapeHtml('selected') : '') ?>>
+                            <?= $escaper->escapeHtml($country['label']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-    <!-- Flexbox container for date fields -->
-    <div class="form-group date-container">
-        <div class="date-field">
-            <label for="date_from"><?= $escaper->escapeHtml(__('Date From:')); ?></label>
-            <input type="date" id="date_from" name="date_from" required>
-        </div>
-
-        <div class="date-field">
-            <label for="date_to"><?= $escaper->escapeHtml(__('Date To:')); ?></label>
-            <input type="date" id="date_to" name="date_to" required>
-        </div>
-    </div>
-
-    <div class="form-group date-container">
-        <div class="date-field">
-            <label for="organizer_name"><?= $escaper->escapeHtml(__('Organizer Name:')); ?></label>
-            <input type="text" id="organizer_name" name="organizer_name" required>
+            <div class="date-field">
+                <label for="city"><?= $escaper->escapeHtml(__('Event City:')); ?></label>
+                <input type="text" id="city" name="city"
+                       value="<?= $event ? $escaper->escapeHtml($block->getDataValue($event->getCity())) : null; ?>"
+                       required />
+            </div>
         </div>
 
-        <div class="date-field">
-            <label for="organizer_url"><?= $escaper->escapeHtml(__('Organizer Url:')); ?></label>
-            <input type="text" id="organizer_url" name="organizer_url" required>
+        <!-- Flexbox container for date fields -->
+        <div class="form-group date-container">
+            <div class="date-field">
+                <label for="date_from"><?= $escaper->escapeHtml(__('Date From:')); ?></label>
+                <input type="date" id="date_from" name="date_from"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDateOnly($block->getDataValue($event->getDateFrom())))
+                           : null; ?>"
+                       required />
+            </div>
+
+            <div class="date-field">
+                <label for="date_to"><?= $escaper->escapeHtml(__('Date To:')); ?></label>
+                <input type="date" id="date_to" name="date_to"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDateOnly($block->getDataValue($event->getDateTo())))
+                           : null; ?>"
+                       required />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="event_logo"><?= $escaper->escapeHtml(__('Event Logo:')); ?></label>
-        <input type="file" id="event_logo" name="event_logo" accept="image/*">
-    </div>
+        <div class="form-group date-container">
+            <div class="date-field">
+                <label for="organizer_name"><?= $escaper->escapeHtml(__('Organizer Name:')); ?></label>
+                <input type="text" id="organizer_name" name="organizer_name"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getOrganizerName()))
+                           : null; ?>"
+                       required />
+            </div>
 
-    <?= $block->getChildHtml('event.recaptcha'); ?>
-    <div class="form-actions">
-        <button type="submit" class="action primary"><?= $escaper->escapeHtml(__('Submit Event')); ?></button>
-    </div>
-</form>
+            <div class="date-field">
+                <label for="organizer_url"><?= $escaper->escapeHtml(__('Organizer Url:')); ?></label>
+                <input type="text" id="organizer_url" name="organizer_url"
+                       value="<?= $event
+                           ? $escaper->escapeHtml($block->getDataValue($event->getOrganizerUrl()))
+                           : null; ?>"
+                       required />
+            </div>
+        </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let today = new Date().toISOString().split('T')[0];
-        document.getElementById("date_from").setAttribute("min", today);
-        document.getElementById("date_to").setAttribute("min", today);
-    });
-</script>
+        <div class="form-group">
+            <label for="event_logo"><?= $escaper->escapeHtml(__('Event Logo:')); ?></label>
+            <?php if ($event && $event->getLogo()): ?>
+                <div class="current-logo">
+                    <img src="<?= $escaper->escapeUrl($block->getLogoUrl($event->getLogo()))?>"
+                         alt="<?= $escaper->escapeHtml(__('Event Logo'))?>">
+                </div>
+                <input type="hidden" id="existing_event_logo" name="existing_event_logo"
+                       value="<?= $escaper->escapeHtml($event->getLogo())?>">
+
+            <div class="field choice">
+                <input type="checkbox" name="remove_logo" id="remove_logo" />
+                <label class="block text-gray-700 font-medium flex items-center gap-2" for="remove_logo">
+                    <span><?= $escaper->escapeHtml(__('Remove Current Logo'))?></span>
+                </label>
+            </div>
+            <?php endif; ?>
+            <input type="file" id="event_logo" name="event_logo" accept="image/*">
+        </div>
+
+        <?= $block->getChildHtml('event.recaptcha'); ?>
+        <div class="form-actions">
+            <button type="submit" class="action primary">
+                <?= !$event ? $escaper->escapeHtml(__('Submit Event'))
+                    : $escaper->escapeHtml(__('Update Event')); ?>
+            </button>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let today = new Date().toISOString().split('T')[0];
+            document.getElementById("date_from").setAttribute("min", today);
+            document.getElementById("date_to").setAttribute("min", today);
+        });
+    </script>
+<?php else: ?>
+    <div class="message info empty"><span><?= $escaper->escapeHtml(__($block->getMembershipNotice())); ?></span></div>
+<?php endif; ?>

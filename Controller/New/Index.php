@@ -16,8 +16,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Customer\Controller\AccountInterface;
 
-class Index implements HttpGetActionInterface
+class Index implements HttpGetActionInterface, AccountInterface
 {
     /**
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
@@ -34,9 +35,9 @@ class Index implements HttpGetActionInterface
     /**
      * Execute view action
      *
-     * @return ResultInterface
+     * @return \Magento\Framework\Controller\ResultInterface|null
      */
-    public function execute(): ResultInterface
+    public function execute(): ?ResultInterface
     {
         $this->pageConfig->setMetaTitle($this->scopeConfig->getValue('qoliber_event_calendar/seo_new/meta_title'));
         $this->pageConfig->setDescription(

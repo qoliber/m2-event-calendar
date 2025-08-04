@@ -13,6 +13,16 @@
     .form-group {
         margin-bottom: 15px;
 
+        .field.choice {
+            display: flex;
+            margin-bottom: 15px;
+
+            input[type='checkbox'] {
+                height: 13px;
+                width: 13px;
+            }
+        }
+
         label {
             display: block;
             font-weight: bold;
@@ -59,20 +69,31 @@
 
     .form-actions {
         text-align: center;
-
-        .action.primary {
-            background-color: @bg-blue;
-            border: none;
-            border-radius: 4px;
-            color: @background-white;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 10px 15px;
-            transition: background .3s;
-
-            &:hover {
-                background-color: @bg-blue;
-            }
-        }
     }
+
+    .current-logo {
+        font-size: 0;
+        margin: 10px 0;
+        max-width: 100px;
+    }
+}
+
+.event-form .form-actions .action.primary,
+.events-myevents-index .button-wrapper .action.primary {
+    background-color: @bg-blue;
+    border: none;
+    border-radius: 4px;
+    color: @background-white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 15px;
+    transition: background .3s;
+
+    &:hover {
+        background-color: @bg-blue;
+    }
+}
+
+.events-myevents-index .button-wrapper {
+    margin-bottom: 30px;
 }

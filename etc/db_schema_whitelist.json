@@ -13,13 +13,18 @@
             "address_details": true,
             "city": true,
             "organizer_name": true,
-            "organizer_url": true
+            "organizer_url": true,
+            "customer_id": true
         },
         "constraint": {
-            "PRIMARY": true
+            "PRIMARY": true,
+            "QOLIBER_EVENTS_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true
         },
         "search": {
             "QOLIBER_EVENTS_EVENT_ID": true
+        },
+        "index": {
+            "QOLIBER_EVENTS_COUNTRY_ADDRESS_DETAILS_CITY_ORGANIZER_NAME": true
         }
     }
 }
